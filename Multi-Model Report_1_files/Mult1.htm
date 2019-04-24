@@ -28,6 +28,10 @@
 </p>
 </td>
 <td class="Header">
+<p align="center">Priority
+</p>
+</td>
+<td class="Header">
 <p align="center">Type
 </p>
 </td>
@@ -47,6 +51,10 @@
 </td>
 <td>
 <p align="left">&nbsp; 
+</p>
+</td>
+<td>
+<p align="left">1
 </p>
 </td>
 <td>
@@ -72,6 +80,10 @@
 </p>
 </td>
 <td class="TD2">
+<p align="left">1
+</p>
+</td>
+<td class="TD2">
 <p align="left">Undefined
 </p>
 </td>
@@ -86,11 +98,15 @@
 </p>
 </td>
 <td>
-<p align="left"><a href="Mult4.htm#9">Указание интента</a>
+<p align="left"><a href="Mult4.htm#9">Классификация маленьких текстов</a>
 </p>
 </td>
 <td>
-<p align="left">Указание одного/нескольких интентов (классов) для строки Сырых данных
+<p align="left">Указание одного/нескольких интентов (классов) для строки входящих данных.
+</p>
+</td>
+<td>
+<p align="left">1
 </p>
 </td>
 <td>
@@ -104,37 +120,115 @@
 </tr>
 <tr>
 <td class="TD2">
+<p align="left">1.1.1.1
+</p>
+</td>
+<td class="TD2">
+<p align="left"><a href="Mult5.htm#12">Вход</a>
+</p>
+</td>
+<td class="TD2">
+<p align="left">1. Данные для разметки (файл) (id;text)<br />
+2. Файл-классификатор (файл) (label;value)<br />
+3. Описание задания <br />
+4. Пример (например 10 размеченных строк) (файл) (text;target;error message)<br />
+5. Тест на пригодность (файл) тестирование на адекватность, на возраст, на соответствие компетенциям при выполнении задания. <br />
+
+</p>
+</td>
+<td class="TD2">
+<p align="left">1
+</p>
+</td>
+<td class="TD2">
+<p align="left">Functional
+</p>
+</td>
+<td class="TD2">
+<p align="left">&nbsp; 
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<p align="left">1.1.1.2
+</p>
+</td>
+<td>
+<p align="left"><a href="Mult6.htm#14">Исполнение</a>
+</p>
+</td>
+<td>
+<p align="left">Классы. Не должно быть много классов (не более 10), Либо классификатор должен быть иерархичным и разметка производится итерациями.<br />
+Контекст. Для маленьких текстов контекст не очень важен или он может быть дан заранее, в описании. Контекст записывается в том же поле, где текст (если это нужно)<br />
+Алгоритмы обработки. Например: <br />
+при разметке можно динамически влиять на процесс, вычисляя по каждой строке размечаемого датасета Total, Confidence и выбирать записи для задания с учетом этих параметров.<br />
+
+</p>
+</td>
+<td>
+<p align="left">1
+</p>
+</td>
+<td>
+<p align="left">Functional
+</p>
+</td>
+<td>
+<p align="left">&nbsp; 
+</p>
+</td>
+</tr>
+<tr>
+<td class="TD2">
+<p align="left">1.1.1.3
+</p>
+</td>
+<td class="TD2">
+<p align="left"><a href="Mult7.htm#16">Выход</a>
+</p>
+</td>
+<td class="TD2">
+<p align="left">Вариант 1. Как правило это тот же Датасет, что и на вход, но к нему добавляются нескольтко полей. <br />
+Вариант 2. JSON-файл, куда к каждой записи может быть добавлена необходимая структура с ответами. Например: <br />
+{<br />
+&quot;ID&quot;:&quot;123456&quot;,<br />
+&quot;Text&quot;: &quot;О сколько нам открытий&quot;,<br />
+&quot;Data&quot;:{},<br />
+&quot;Meta&quot;:{}<br />
+}<br />
+<br />
+Вариант 3.
+</p>
+</td>
+<td class="TD2">
+<p align="left">1
+</p>
+</td>
+<td class="TD2">
+<p align="left">Functional
+</p>
+</td>
+<td class="TD2">
+<p align="left">&nbsp; 
+</p>
+</td>
+</tr>
+<tr>
+<td>
 <p align="left">1.1.2
 </p>
 </td>
-<td class="TD2">
-<p align="left"><a href="Mult5.htm#12">Выделение сущностей</a>
-</p>
-</td>
-<td class="TD2">
-<p align="left">Выделение сущностей из предложения в строке Сырых данных. Сущность может быть указана для всего предложения, отдельного слова или фразы.
-</p>
-</td>
-<td class="TD2">
-<p align="left">Functional
-</p>
-</td>
-<td class="TD2">
-<p align="left">&nbsp; 
-</p>
-</td>
-</tr>
-<tr>
 <td>
-<p align="left">1.1.3
+<p align="left"><a href="Mult8.htm#18">Классификация больших текстов</a>
 </p>
 </td>
 <td>
-<p align="left"><a href="Mult6.htm#15">Озвучивание текста</a>
+<p align="left">Указание одного/нескольких интентов (классов) для строки входящих данных.
 </p>
 </td>
 <td>
-<p align="left">Читать, проговаривать (вход=текст; выход=голос)
+<p align="left">3
 </p>
 </td>
 <td>
@@ -148,11 +242,63 @@
 </tr>
 <tr>
 <td class="TD2">
-<p align="left">1.1.4
+<p align="left">1.1.3
 </p>
 </td>
 <td class="TD2">
-<p align="left"><a href="Mult7.htm#17">Оцифровка голоса</a>
+<p align="left"><a href="Mult9.htm#20">Выделение сущностей</a>
+</p>
+</td>
+<td class="TD2">
+<p align="left">Выделение сущностей из предложения в строке Сырых данных. Сущность может быть указана для всего предложения, отдельного слова или фразы.
+</p>
+</td>
+<td class="TD2">
+<p align="left">2
+</p>
+</td>
+<td class="TD2">
+<p align="left">Functional
+</p>
+</td>
+<td class="TD2">
+<p align="left">&nbsp; 
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<p align="left">1.1.4
+</p>
+</td>
+<td>
+<p align="left"><a href="Mult10.htm#23">Озвучивание текста</a>
+</p>
+</td>
+<td>
+<p align="left">Читать, проговаривать (вход=текст; выход=голос)
+</p>
+</td>
+<td>
+<p align="left">3
+</p>
+</td>
+<td>
+<p align="left">Undefined
+</p>
+</td>
+<td>
+<p align="left">&nbsp; 
+</p>
+</td>
+</tr>
+<tr>
+<td class="TD2">
+<p align="left">1.1.5
+</p>
+</td>
+<td class="TD2">
+<p align="left"><a href="Mult11.htm#25">Оцифровка голоса</a>
 </p>
 </td>
 <td class="TD2">
@@ -162,6 +308,10 @@
 </p>
 </td>
 <td class="TD2">
+<p align="left">3
+</p>
+</td>
+<td class="TD2">
 <p align="left">Undefined
 </p>
 </td>
@@ -172,15 +322,19 @@
 </tr>
 <tr>
 <td>
-<p align="left">1.1.5
+<p align="left">1.1.6
 </p>
 </td>
 <td>
-<p align="left"><a href="Mult8.htm#19">Классификация изображений</a>
+<p align="left"><a href="Mult12.htm#27">Классификация изображений</a>
 </p>
 </td>
 <td>
 <p align="left">&nbsp; 
+</p>
+</td>
+<td>
+<p align="left">3
 </p>
 </td>
 <td>
@@ -198,11 +352,15 @@
 </p>
 </td>
 <td class="TD2">
-<p align="left"><a href="Mult9.htm#21">Данные</a>
+<p align="left"><a href="Mult13.htm#29">Данные</a>
 </p>
 </td>
 <td class="TD2">
 <p align="left">&nbsp; 
+</p>
+</td>
+<td class="TD2">
+<p align="left">1
 </p>
 </td>
 <td class="TD2">
@@ -220,13 +378,15 @@
 </p>
 </td>
 <td>
-<p align="left"><a href="Mult10.htm#23">Источники/получатели данных</a>
+<p align="left"><a href="Mult14.htm#31">Источники данных</a>
 </p>
 </td>
 <td>
-<p align="left">Файл  (тип .csv)<br />
-URL<br />
-JDBC
+<p align="left">&nbsp; 
+</p>
+</td>
+<td>
+<p align="left">1
 </p>
 </td>
 <td>
@@ -240,38 +400,98 @@ JDBC
 </tr>
 <tr>
 <td class="TD2">
+<p align="left">1.2.1.1
+</p>
+</td>
+<td class="TD2">
+<p align="left"><a href="Mult15.htm#33">Файл  (тип csv, json)</a>
+</p>
+</td>
+<td class="TD2">
+<p align="left">&nbsp; 
+</p>
+</td>
+<td class="TD2">
+<p align="left">1
+</p>
+</td>
+<td class="TD2">
+<p align="left">Undefined
+</p>
+</td>
+<td class="TD2">
+<p align="left">&nbsp; 
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<p align="left">1.2.1.2
+</p>
+</td>
+<td>
+<p align="left"><a href="Mult16.htm#35">URL</a>
+</p>
+</td>
+<td>
+<p align="left">&nbsp; 
+</p>
+</td>
+<td>
+<p align="left">4
+</p>
+</td>
+<td>
+<p align="left">Undefined
+</p>
+</td>
+<td>
+<p align="left">&nbsp; 
+</p>
+</td>
+</tr>
+<tr>
+<td class="TD2">
+<p align="left">1.2.1.3
+</p>
+</td>
+<td class="TD2">
+<p align="left"><a href="Mult17.htm#37">JDBC</a>
+</p>
+</td>
+<td class="TD2">
+<p align="left">&nbsp; 
+</p>
+</td>
+<td class="TD2">
+<p align="left">4
+</p>
+</td>
+<td class="TD2">
+<p align="left">Undefined
+</p>
+</td>
+<td class="TD2">
+<p align="left">&nbsp; 
+</p>
+</td>
+</tr>
+<tr>
+<td>
 <p align="left">1.2.2
 </p>
 </td>
-<td class="TD2">
-<p align="left"><a href="Mult11.htm#25">Кодировка</a>
+<td>
+<p align="left"><a href="Mult18.htm#39">Кодировка</a>
 </p>
 </td>
-<td class="TD2">
+<td>
 <p align="left">UTF8 <br />
 WIN1251
 </p>
 </td>
-<td class="TD2">
-<p align="left">Undefined
-</p>
-</td>
-<td class="TD2">
-<p align="left">&nbsp; 
-</p>
-</td>
-</tr>
-<tr>
 <td>
-<p align="left">1.2.3
-</p>
-</td>
-<td>
-<p align="left"><a href="Mult12.htm#27">Вход</a>
-</p>
-</td>
-<td>
-<p align="left">ID;TEXT 
+<p align="left">1
 </p>
 </td>
 <td>
@@ -285,371 +505,409 @@ WIN1251
 </tr>
 <tr>
 <td class="TD2">
-<p align="left">1.2.4
-</p>
-</td>
-<td class="TD2">
-<p align="left"><a href="Mult13.htm#30">Выход</a>
-</p>
-</td>
-<td class="TD2">
-<p align="left">ID;TEXT;CLASS 
-</p>
-</td>
-<td class="TD2">
-<p align="left">Undefined
-</p>
-</td>
-<td class="TD2">
-<p align="left">&nbsp; 
-</p>
-</td>
-</tr>
-<tr>
-<td>
 <p align="left">1.3
 </p>
 </td>
-<td>
-<p align="left"><a href="Mult14.htm#32">Администрирование</a>
+<td class="TD2">
+<p align="left"><a href="Mult19.htm#41">Администрирование</a>
 </p>
 </td>
-<td>
+<td class="TD2">
 <p align="left">&nbsp; 
 </p>
 </td>
-<td>
+<td class="TD2">
 <p align="left">Undefined
 </p>
 </td>
-<td>
+<td class="TD2">
+<p align="left">Undefined
+</p>
+</td>
+<td class="TD2">
 <p align="left">&nbsp; 
 </p>
 </td>
 </tr>
 <tr>
-<td class="TD2">
+<td>
 <p align="left">1.3.1
 </p>
 </td>
-<td class="TD2">
-<p align="left"><a href="Mult15.htm#34">Роли пользователей</a>
+<td>
+<p align="left"><a href="Mult20.htm#43">Роли пользователей</a>
 </p>
 </td>
-<td class="TD2">
+<td>
 <p align="left">Ведение ролей пользователей: <br />
 Заказчик<br />
 Разметчик<br />
 Администратор
 </p>
 </td>
-<td class="TD2">
+<td>
 <p align="left">Undefined
 </p>
 </td>
-<td class="TD2">
+<td>
+<p align="left">Undefined
+</p>
+</td>
+<td>
 <p align="left">&nbsp; 
 </p>
 </td>
 </tr>
 <tr>
-<td>
+<td class="TD2">
 <p align="left">1.3.2
 </p>
 </td>
-<td>
-<p align="left"><a href="Mult16.htm#36">Компетенции пользователей</a>
+<td class="TD2">
+<p align="left"><a href="Mult21.htm#45">Компетенции пользователей</a>
 </p>
 </td>
-<td>
+<td class="TD2">
 <p align="left">&nbsp; 
 </p>
 </td>
-<td>
+<td class="TD2">
 <p align="left">Undefined
 </p>
 </td>
-<td>
+<td class="TD2">
+<p align="left">Undefined
+</p>
+</td>
+<td class="TD2">
 <p align="left">&nbsp; 
 </p>
 </td>
 </tr>
 <tr>
-<td class="TD2">
+<td>
 <p align="left">1.3.2.1
 </p>
 </td>
-<td class="TD2">
-<p align="left"><a href="Mult17.htm#38">Указание компетенций</a>
+<td>
+<p align="left"><a href="Mult22.htm#47">Указание компетенций</a>
 </p>
 </td>
-<td class="TD2">
+<td>
 <p align="left">Пользователь может указать область своих знаний или компетенций
 </p>
 </td>
-<td class="TD2">
+<td>
 <p align="left">Undefined
 </p>
 </td>
-<td class="TD2">
+<td>
+<p align="left">Undefined
+</p>
+</td>
+<td>
 <p align="left">&nbsp; 
 </p>
 </td>
 </tr>
 <tr>
-<td>
+<td class="TD2">
 <p align="left">1.3.2.2
 </p>
 </td>
-<td>
-<p align="left"><a href="Mult18.htm#40">Подтверждение компетенций</a>
+<td class="TD2">
+<p align="left"><a href="Mult23.htm#49">Подтверждение компетенций</a>
 </p>
 </td>
-<td>
+<td class="TD2">
 <p align="left">Администратор или система может подтвердить компетенцию пользователя, поставить уровень компетенции.
 </p>
 </td>
-<td>
+<td class="TD2">
 <p align="left">Undefined
 </p>
 </td>
-<td>
+<td class="TD2">
+<p align="left">Undefined
+</p>
+</td>
+<td class="TD2">
 <p align="left">&nbsp; 
 </p>
 </td>
 </tr>
 <tr>
-<td class="TD2">
+<td>
 <p align="left">1.3.2.3
 </p>
 </td>
-<td class="TD2">
-<p align="left"><a href="Mult19.htm#42">Выбор заданий</a>
+<td>
+<p align="left"><a href="Mult24.htm#51">Выбор заданий</a>
 </p>
 </td>
-<td class="TD2">
+<td>
 <p align="left">Система может назначить задание пользователю как ввиду наличия у него определенной компетенции, так и наоборот, ввиду отсутствия.
 </p>
 </td>
-<td class="TD2">
+<td>
 <p align="left">Undefined
 </p>
 </td>
-<td class="TD2">
+<td>
+<p align="left">Undefined
+</p>
+</td>
+<td>
 <p align="left">&nbsp; 
 </p>
 </td>
 </tr>
 <tr>
-<td>
+<td class="TD2">
 <p align="left">1.3.3
 </p>
 </td>
-<td>
-<p align="left"><a href="Mult20.htm#44">Ведение типов разметок</a>
+<td class="TD2">
+<p align="left"><a href="Mult25.htm#53">Ведение типов разметок</a>
 </p>
 </td>
-<td>
+<td class="TD2">
 <p align="left">Описание, настройка вх/вых данных и т.п.
 </p>
 </td>
-<td>
+<td class="TD2">
 <p align="left">Undefined
 </p>
 </td>
-<td>
+<td class="TD2">
+<p align="left">Undefined
+</p>
+</td>
+<td class="TD2">
 <p align="left">&nbsp; 
 </p>
 </td>
 </tr>
 <tr>
-<td class="TD2">
+<td>
 <p align="left">1.4
 </p>
 </td>
-<td class="TD2">
-<p align="left"><a href="Mult21.htm#46">Разметка</a>
+<td>
+<p align="left"><a href="Mult26.htm#55">Разметка</a>
 </p>
 </td>
-<td class="TD2">
+<td>
 <p align="left">&nbsp; 
 </p>
 </td>
-<td class="TD2">
+<td>
 <p align="left">Undefined
 </p>
 </td>
-<td class="TD2">
+<td>
+<p align="left">Undefined
+</p>
+</td>
+<td>
 <p align="left">&nbsp; 
 </p>
 </td>
 </tr>
 <tr>
-<td>
+<td class="TD2">
 <p align="left">1.4.1
 </p>
 </td>
-<td>
-<p align="left"><a href="Mult22.htm#48">Области предпочтений разметчика</a>
+<td class="TD2">
+<p align="left"><a href="Mult27.htm#57">Области предпочтений разметчика</a>
 </p>
 </td>
-<td>
+<td class="TD2">
 <p align="left">&nbsp; 
 </p>
 </td>
-<td>
+<td class="TD2">
 <p align="left">Undefined
 </p>
 </td>
-<td>
+<td class="TD2">
+<p align="left">Undefined
+</p>
+</td>
+<td class="TD2">
 <p align="left">&nbsp; 
 </p>
 </td>
 </tr>
 <tr>
-<td class="TD2">
+<td>
 <p align="left">1.4.1.1
 </p>
 </td>
-<td class="TD2">
-<p align="left"><a href="Mult23.htm#50">Указание предпочтений</a>
+<td>
+<p align="left"><a href="Mult28.htm#59">Указание предпочтений</a>
 </p>
 </td>
-<td class="TD2">
+<td>
 <p align="left">Пользователь может указать предпочитаемые категории/области, их которых он ждет задания. 
 </p>
 </td>
-<td class="TD2">
+<td>
 <p align="left">Undefined
 </p>
 </td>
-<td class="TD2">
+<td>
+<p align="left">Undefined
+</p>
+</td>
+<td>
 <p align="left">&nbsp; 
 </p>
 </td>
 </tr>
 <tr>
-<td>
+<td class="TD2">
 <p align="left">1.4.1.2
 </p>
 </td>
-<td>
-<p align="left"><a href="Mult24.htm#52">Указание нежелательных категорий</a>
+<td class="TD2">
+<p align="left"><a href="Mult29.htm#61">Указание нежелательных категорий</a>
 </p>
 </td>
-<td>
+<td class="TD2">
 <p align="left">Пользователь может указать нежелательные области/категории заданий. 
 </p>
 </td>
-<td>
+<td class="TD2">
 <p align="left">Undefined
 </p>
 </td>
-<td>
+<td class="TD2">
+<p align="left">Undefined
+</p>
+</td>
+<td class="TD2">
 <p align="left">&nbsp; 
 </p>
 </td>
 </tr>
 <tr>
-<td class="TD2">
+<td>
 <p align="left">1.5
 </p>
 </td>
-<td class="TD2">
-<p align="left"><a href="Mult25.htm#54">Разные требования</a>
+<td>
+<p align="left"><a href="Mult30.htm#63">Разные требования</a>
 </p>
 </td>
-<td class="TD2">
+<td>
 <p align="left">&nbsp; 
 </p>
 </td>
-<td class="TD2">
+<td>
 <p align="left">Undefined
 </p>
 </td>
-<td class="TD2">
+<td>
+<p align="left">Undefined
+</p>
+</td>
+<td>
 <p align="left">&nbsp; 
 </p>
 </td>
 </tr>
 <tr>
-<td>
+<td class="TD2">
 <p align="left">1.5.1
 </p>
 </td>
-<td>
-<p align="left"><a href="Mult26.htm#56">Контекст</a>
+<td class="TD2">
+<p align="left"><a href="Mult31.htm#65">Контекст</a>
 </p>
 </td>
-<td>
+<td class="TD2">
 <p align="left">При разметке данных бывает важен контекст, например, слово &quot;замок&quot; в разных контекстах имеет совершенно разные значения. 
 </p>
 </td>
-<td>
+<td class="TD2">
 <p align="left">Undefined
 </p>
 </td>
-<td>
+<td class="TD2">
+<p align="left">Undefined
+</p>
+</td>
+<td class="TD2">
 <p align="left">&nbsp; 
 </p>
 </td>
 </tr>
 <tr>
-<td class="TD2">
+<td>
 <p align="left">1.5.2
 </p>
 </td>
-<td class="TD2">
-<p align="left"><a href="Mult27.htm#58">Включение валидаторов в процесс разметки</a>
+<td>
+<p align="left"><a href="Mult32.htm#67">Включение валидаторов в процесс разметки</a>
 </p>
 </td>
-<td class="TD2">
+<td>
 <p align="left">&nbsp; 
 </p>
 </td>
-<td class="TD2">
+<td>
 <p align="left">Undefined
 </p>
 </td>
-<td class="TD2">
+<td>
+<p align="left">Undefined
+</p>
+</td>
+<td>
 <p align="left">&nbsp; 
 </p>
 </td>
 </tr>
 <tr>
-<td>
+<td class="TD2">
 <p align="left">1.5.3
 </p>
 </td>
-<td>
-<p align="left"><a href="Mult28.htm#60">Система уведомлений о событиях</a>
+<td class="TD2">
+<p align="left"><a href="Mult33.htm#69">Система уведомлений о событиях</a>
 </p>
 </td>
-<td>
+<td class="TD2">
 <p align="left">Должна быть предусмотрена система уведомлений <br />
 Подписка на уведомление о событии<br />
 Отправка уведомлений
 </p>
 </td>
-<td>
+<td class="TD2">
 <p align="left">Undefined
 </p>
 </td>
-<td>
+<td class="TD2">
+<p align="left">Undefined
+</p>
+</td>
+<td class="TD2">
 <p align="left">&nbsp; 
 </p>
 </td>
 </tr>
 <tr>
-<td class="TD2">
+<td>
 <p align="left">1.5.4
 </p>
 </td>
-<td class="TD2">
-<p align="left"><a href="Mult29.htm#62">Workflow для задания</a>
+<td>
+<p align="left"><a href="Mult34.htm#71">Workflow для задания</a>
 </p>
 </td>
-<td class="TD2">
+<td>
 <p align="left">Workflow для задания (приблизительный):<br />
 <br />
 Черновик<br />
@@ -659,70 +917,108 @@ WIN1251
 Завершен
 </p>
 </td>
-<td class="TD2">
+<td>
 <p align="left">Undefined
 </p>
 </td>
-<td class="TD2">
+<td>
+<p align="left">Undefined
+</p>
+</td>
+<td>
 <p align="left">X
 </p>
 </td>
 </tr>
 <tr>
-<td>
+<td class="TD2">
 <p align="left">2.
 </p>
 </td>
-<td>
-<p align="left"><a href="Mult30.htm#65">Front-end</a>
+<td class="TD2">
+<p align="left"><a href="Mult35.htm#74">Front-end</a>
 </p>
 </td>
-<td>
+<td class="TD2">
 <p align="left">&nbsp; 
 </p>
 </td>
-<td>
+<td class="TD2">
 <p align="left">Undefined
 </p>
 </td>
-<td>
+<td class="TD2">
+<p align="left">Undefined
+</p>
+</td>
+<td class="TD2">
 <p align="left">&nbsp; 
 </p>
 </td>
 </tr>
 <tr>
-<td class="TD2">
+<td>
 <p align="left">2.1
 </p>
 </td>
-<td class="TD2">
-<p align="left"><a href="Mult31.htm#67">Заказчик</a>
+<td>
+<p align="left"><a href="Mult36.htm#76">Заказчик</a>
 </p>
 </td>
-<td class="TD2">
+<td>
 <p align="left">Заказчики - те, кто грузит датасеты и хочет получить по ним результаты. 
 </p>
 </td>
-<td class="TD2">
+<td>
 <p align="left">Undefined
 </p>
 </td>
-<td class="TD2">
+<td>
+<p align="left">Undefined
+</p>
+</td>
+<td>
 <p align="left">&nbsp; 
 </p>
 </td>
 </tr>
 <tr>
-<td>
+<td class="TD2">
 <p align="left">2.1.1
 </p>
 </td>
+<td class="TD2">
+<p align="left"><a href="Mult37.htm#78">Ведение заданий</a>
+</p>
+</td>
+<td class="TD2">
+<p align="left">&nbsp; 
+</p>
+</td>
+<td class="TD2">
+<p align="left">Undefined
+</p>
+</td>
+<td class="TD2">
+<p align="left">Undefined
+</p>
+</td>
+<td class="TD2">
+<p align="left">&nbsp; 
+</p>
+</td>
+</tr>
+<tr>
 <td>
-<p align="left"><a href="Mult32.htm#69">Ведение заданий</a>
+<p align="left">2.1.1.1
 </p>
 </td>
 <td>
-<p align="left">&nbsp; 
+<p align="left"><a href="Mult38.htm#80">Создание задания</a>
+</p>
+</td>
+<td>
+<p align="left">Чтобы создать задание, Заказчик должен нажать кнопку со значком &quot;+&quot; на основном экране (Дашборде).
 </p>
 </td>
 <td>
@@ -730,421 +1026,344 @@ WIN1251
 </p>
 </td>
 <td>
-<p align="left">&nbsp; 
-</p>
-</td>
-</tr>
-<tr>
-<td class="TD2">
-<p align="left">2.1.1.1
-</p>
-</td>
-<td class="TD2">
-<p align="left"><a href="Mult33.htm#71">Создание задания</a>
-</p>
-</td>
-<td class="TD2">
-<p align="left">Чтобы создать задание, Заказчик должен нажать кнопку со значком &quot;+&quot; на основном экране (Дашборде).
-</p>
-</td>
-<td class="TD2">
 <p align="left">Design
 </p>
 </td>
-<td class="TD2">
+<td>
 <p align="left">&nbsp; 
 </p>
 </td>
 </tr>
 <tr>
-<td>
+<td class="TD2">
 <p align="left">2.1.1.1.1
 </p>
 </td>
-<td>
-<p align="left"><a href="Mult34.htm#73">Источник задания</a>
+<td class="TD2">
+<p align="left"><a href="Mult39.htm#82">Источник задания</a>
 </p>
 </td>
-<td>
+<td class="TD2">
 <p align="left">Под источником задания понимаются сырые данные, требующие разметки.<br />
 В качестве данных могут выступать файлы.
 </p>
 </td>
-<td>
+<td class="TD2">
 <p align="left">Undefined
 </p>
 </td>
-<td>
+<td class="TD2">
+<p align="left">Undefined
+</p>
+</td>
+<td class="TD2">
 <p align="left">&nbsp; 
 </p>
 </td>
 </tr>
 <tr>
-<td class="TD2">
+<td>
 <p align="left">2.1.1.1.1.1
 </p>
 </td>
-<td class="TD2">
-<p align="left"><a href="Mult35.htm#75">Путь к файлу</a>
+<td>
+<p align="left"><a href="Mult40.htm#84">Путь к файлу</a>
 </p>
 </td>
-<td class="TD2">
+<td>
 <p align="left">Требуется указать полный путь и имя файла.
 </p>
 </td>
-<td class="TD2">
+<td>
 <p align="left">Undefined
 </p>
 </td>
-<td class="TD2">
+<td>
+<p align="left">Undefined
+</p>
+</td>
+<td>
 <p align="left">&nbsp; 
 </p>
 </td>
 </tr>
 <tr>
-<td>
+<td class="TD2">
 <p align="left">2.1.1.1.1.2
 </p>
 </td>
-<td>
-<p align="left"><a href="Mult36.htm#77">Тип файла</a>
+<td class="TD2">
+<p align="left"><a href="Mult41.htm#86">Тип файла</a>
 </p>
 </td>
-<td>
+<td class="TD2">
 <p align="left">Пользователь может указать файлы следующих типов:<br />
 csv
 </p>
 </td>
-<td>
+<td class="TD2">
 <p align="left">Undefined
 </p>
 </td>
-<td>
+<td class="TD2">
+<p align="left">Undefined
+</p>
+</td>
+<td class="TD2">
 <p align="left">&nbsp; 
 </p>
 </td>
 </tr>
 <tr>
-<td class="TD2">
+<td>
 <p align="left">2.1.1.1.1.3
 </p>
 </td>
-<td class="TD2">
-<p align="left"><a href="Mult37.htm#79">Кодировка файла</a>
+<td>
+<p align="left"><a href="Mult42.htm#88">Кодировка файла</a>
 </p>
 </td>
-<td class="TD2">
+<td>
 <p align="left">Пользователь должен иметь возможность выбрать кодировку файла из списка.
 </p>
 </td>
-<td class="TD2">
+<td>
 <p align="left">Undefined
 </p>
 </td>
-<td class="TD2">
-<p align="left">X
+<td>
+<p align="left">Undefined
+</p>
+</td>
+<td>
+<p align="left">&nbsp; 
 </p>
 </td>
 </tr>
 <tr>
-<td>
+<td class="TD2">
 <p align="left">2.1.1.1.1.4
 </p>
 </td>
-<td>
-<p align="left"><a href="Mult38.htm#82">Предварительный просмотр содержимого файла</a>
+<td class="TD2">
+<p align="left"><a href="Mult43.htm#90">Предварительный просмотр содержимого файла</a>
 </p>
 </td>
-<td>
+<td class="TD2">
 <p align="left">Приложение считывает первые 200 байт файла и показывает их пользователю для визуального контроля. 
 </p>
 </td>
-<td>
+<td class="TD2">
 <p align="left">Undefined
 </p>
 </td>
-<td>
+<td class="TD2">
+<p align="left">Undefined
+</p>
+</td>
+<td class="TD2">
 <p align="left">&nbsp; 
 </p>
 </td>
 </tr>
 <tr>
-<td class="TD2">
+<td>
 <p align="left">2.1.1.1.2
 </p>
 </td>
-<td class="TD2">
-<p align="left"><a href="Mult39.htm#84">Название задания</a>
+<td>
+<p align="left"><a href="Mult44.htm#92">Название задания</a>
 </p>
 </td>
-<td class="TD2">
+<td>
 <p align="left">&nbsp; 
 </p>
 </td>
-<td class="TD2">
+<td>
 <p align="left">Undefined
 </p>
 </td>
-<td class="TD2">
+<td>
+<p align="left">Undefined
+</p>
+</td>
+<td>
 <p align="left">&nbsp; 
 </p>
 </td>
 </tr>
 <tr>
-<td>
+<td class="TD2">
 <p align="left">2.1.1.1.2.1
 </p>
 </td>
-<td>
-<p align="left"><a href="Mult40.htm#86">Автозаполнение названия задания</a>
+<td class="TD2">
+<p align="left"><a href="Mult45.htm#94">Автозаполнение названия задания</a>
 </p>
 </td>
-<td>
+<td class="TD2">
 <p align="left">Имя файла 1-ого датасета задания должно попасть в название задания, если название еще не корректировалось. 
 </p>
 </td>
-<td>
+<td class="TD2">
 <p align="left">Undefined
 </p>
 </td>
-<td>
+<td class="TD2">
+<p align="left">Undefined
+</p>
+</td>
+<td class="TD2">
 <p align="left">&nbsp; 
 </p>
 </td>
 </tr>
 <tr>
-<td class="TD2">
+<td>
 <p align="left">2.1.1.1.2.2
 </p>
 </td>
-<td class="TD2">
-<p align="left"><a href="Mult41.htm#88">Корректировка названия задания</a>
+<td>
+<p align="left"><a href="Mult46.htm#96">Корректировка названия задания</a>
 </p>
 </td>
-<td class="TD2">
+<td>
 <p align="left">Пользователь может откорректировать название задания. 
 </p>
 </td>
-<td class="TD2">
+<td>
 <p align="left">Undefined
 </p>
 </td>
-<td class="TD2">
+<td>
+<p align="left">Undefined
+</p>
+</td>
+<td>
 <p align="left">&nbsp; 
 </p>
 </td>
 </tr>
 <tr>
-<td>
+<td class="TD2">
 <p align="left">2.1.1.1.3
 </p>
 </td>
-<td>
-<p align="left"><a href="Mult42.htm#90">Тип задания</a>
+<td class="TD2">
+<p align="left"><a href="Mult47.htm#98">Тип задания</a>
 </p>
 </td>
-<td>
+<td class="TD2">
 <p align="left">Пользователь указывает тип задания из списка.
 </p>
 </td>
-<td>
+<td class="TD2">
 <p align="left">Undefined
 </p>
 </td>
-<td>
+<td class="TD2">
+<p align="left">Undefined
+</p>
+</td>
+<td class="TD2">
 <p align="left">X
 </p>
 </td>
 </tr>
 <tr>
-<td class="TD2">
+<td>
 <p align="left">2.1.1.1.4
 </p>
 </td>
-<td class="TD2">
-<p align="left"><a href="Mult43.htm#93">Настройка задания</a>
+<td>
+<p align="left"><a href="Mult48.htm#101">Настройка задания</a>
 </p>
 </td>
-<td class="TD2">
+<td>
 <p align="left">&nbsp; 
 </p>
 </td>
-<td class="TD2">
+<td>
 <p align="left">Undefined
 </p>
 </td>
-<td class="TD2">
+<td>
+<p align="left">Undefined
+</p>
+</td>
+<td>
 <p align="left">&nbsp; 
 </p>
 </td>
 </tr>
 <tr>
-<td>
+<td class="TD2">
 <p align="left">2.1.1.1.4.1
 </p>
 </td>
-<td>
-<p align="left"><a href="Mult44.htm#95">Инструкция для разметчика</a>
+<td class="TD2">
+<p align="left"><a href="Mult49.htm#103">Инструкция для разметчика</a>
 </p>
 </td>
-<td>
+<td class="TD2">
 <p align="left">Пользователь может написать текст, который будет отображаться Разметчику при выполнении задания
 </p>
 </td>
-<td>
+<td class="TD2">
 <p align="left">Undefined
 </p>
 </td>
-<td>
+<td class="TD2">
+<p align="left">Undefined
+</p>
+</td>
+<td class="TD2">
 <p align="left">&nbsp; 
 </p>
 </td>
 </tr>
 <tr>
-<td class="TD2">
+<td>
 <p align="left">2.1.1.1.4.2
 </p>
 </td>
-<td class="TD2">
-<p align="left"><a href="Mult45.htm#97">Стоимость разметки</a>
+<td>
+<p align="left"><a href="Mult50.htm#105">Стоимость разметки</a>
 </p>
 </td>
-<td class="TD2">
+<td>
 <p align="left">Указывается стоимость разметки во внутренней валюте(выполнение разметчиком одного элементарного задания).
 </p>
 </td>
-<td class="TD2">
+<td>
 <p align="left">Undefined
 </p>
 </td>
-<td class="TD2">
+<td>
+<p align="left">Undefined
+</p>
+</td>
+<td>
 <p align="left">&nbsp; 
 </p>
 </td>
 </tr>
 <tr>
-<td>
+<td class="TD2">
 <p align="left">2.1.1.1.4.3
 </p>
 </td>
-<td>
-<p align="left"><a href="Mult46.htm#99">Максимальное общее время выполнения задания</a>
+<td class="TD2">
+<p align="left"><a href="Mult51.htm#107">Максимальное общее время выполнения задания</a>
 </p>
 </td>
-<td>
+<td class="TD2">
 <p align="left">Время, в течение которого действует задание (от момента старта). <br />
 По истечении этого времени задание переводится в статус &quot;Завершено&quot;.
 </p>
 </td>
-<td>
-<p align="left">Undefined
-</p>
-</td>
-<td>
-<p align="left">&nbsp; 
-</p>
-</td>
-</tr>
-<tr>
-<td class="TD2">
-<p align="left">2.1.1.1.4.4
-</p>
-</td>
-<td class="TD2">
-<p align="left"><a href="Mult47.htm#101">Настройки кросс-валидации</a>
-</p>
-</td>
-<td class="TD2">
-<p align="left">&nbsp; 
-</p>
-</td>
 <td class="TD2">
 <p align="left">Undefined
-</p>
-</td>
-<td class="TD2">
-<p align="left">&nbsp; 
-</p>
-</td>
-</tr>
-<tr>
-<td>
-<p align="left">2.1.1.1.4.4.1
-</p>
-</td>
-<td>
-<p align="left"><a href="Mult48.htm#103">Количество ожидаемых ответов</a>
-</p>
-</td>
-<td>
-<p align="left">Указывается количество ожидаемых ответов <br />
-мин; макс; оптимум
-</p>
-</td>
-<td>
-<p align="left">Undefined
-</p>
-</td>
-<td>
-<p align="left">&nbsp; 
-</p>
-</td>
-</tr>
-<tr>
-<td class="TD2">
-<p align="left">2.1.1.1.4.4.2
-</p>
-</td>
-<td class="TD2">
-<p align="left"><a href="Mult49.htm#105">Процент отсечения</a>
-</p>
-</td>
-<td class="TD2">
-<p align="left">&nbsp; 
-</p>
-</td>
-<td class="TD2">
-<p align="left">Undefined
-</p>
-</td>
-<td class="TD2">
-<p align="left">&nbsp; 
-</p>
-</td>
-</tr>
-<tr>
-<td>
-<p align="left">2.1.1.1.4.5
-</p>
-</td>
-<td>
-<p align="left"><a href="Mult50.htm#107">Тип задания &quot;Указание интента&quot;</a>
-</p>
-</td>
-<td>
-<p align="left">&nbsp; 
-</p>
-</td>
-<td>
-<p align="left">Undefined
-</p>
-</td>
-<td>
-<p align="left">&nbsp; 
-</p>
-</td>
-</tr>
-<tr>
-<td class="TD2">
-<p align="left">2.1.1.1.4.5.1
-</p>
-</td>
-<td class="TD2">
-<p align="left"><a href="Mult51.htm#109">Requirement_1</a>
-</p>
-</td>
-<td class="TD2">
-<p align="left">&nbsp; 
 </p>
 </td>
 <td class="TD2">
