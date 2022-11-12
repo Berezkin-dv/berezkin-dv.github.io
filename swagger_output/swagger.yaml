@@ -1,0 +1,3299 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "SmartMarket Pay API",
+    "description" : "API для приема платежей",
+    "contact" : {
+      "email" : "berezkin.dv@gmail.com"
+    },
+    "version" : "1.0.20"
+  },
+  "servers" : [ {
+    "url" : "https://virtserver.swaggerhub.com/berezkin-dv/SmartPay2/1.0.20",
+    "description" : "SwaggerHub API Auto Mocking"
+  } ],
+  "security" : [ {
+    "bearerAuth" : [ ]
+  } ],
+  "tags" : [ {
+    "name" : "payments",
+    "description" : "Платежные операции"
+  }, {
+    "name" : "callback",
+    "description" : "Callback от платежного оператора"
+  }, {
+    "name" : "cards",
+    "description" : "Операции с карточными связками"
+  } ],
+  "paths" : {
+    "/invoices" : {
+      "get" : {
+        "tags" : [ "payments" ],
+        "summary" : "Получить список счетов клиента",
+        "description" : "Получить список счетов. \n",
+        "operationId" : "get_invoices",
+        "parameters" : [ {
+          "name" : "owner_code",
+          "in" : "query",
+          "description" : "Идентификатор владельца",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "example" : "ru.rustore.MashaAndTheBear"
+          }
+        }, {
+          "name" : "application_code",
+          "in" : "query",
+          "description" : "Список идентификаторов приложений",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string",
+              "example" : "ru.rustore.MashaAndTheBear.HairSalon"
+            }
+          }
+        }, {
+          "name" : "ucp_id",
+          "in" : "query",
+          "description" : "Идентификатор пользователя для выборки (ЕПК.id). Если указан ЕПК.id, то поиск производится по нему.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "$ref" : "#/components/schemas/ucp_id"
+          }
+        }, {
+          "name" : "sub_id",
+          "in" : "query",
+          "description" : "Идентификатор пользователя для выборки (sub_id). Если указаны оба идентификатора, sub_id и ЕПК.id, то поиск производится по ЕПК.id.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "$ref" : "#/components/schemas/sub_id"
+          }
+        }, {
+          "name" : "date_from",
+          "in" : "query",
+          "description" : "Начальная дата создания счета",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "date",
+            "example" : "2020-04-29"
+          }
+        }, {
+          "name" : "date_to",
+          "in" : "query",
+          "description" : "Конечная дата создания счета",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "date",
+            "example" : "2020-08-31"
+          }
+        }, {
+          "name" : "invoice_status",
+          "in" : "query",
+          "description" : "Список статусов счетов, которые нужно отдать в выборке. Если отсутствует, то отдаются только счета со статусом confirmed и paid. Возможные значения all,created,executed,cancelled,paid,confirmed,reversed,refunded",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "example" : "created,executed"
+          }
+        }, {
+          "name" : "amount_from",
+          "in" : "query",
+          "description" : "Сумма счета с, в копейках",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer",
+            "example" : 12345
+          }
+        }, {
+          "name" : "amount_to",
+          "in" : "query",
+          "description" : "Сумма счета по, в копейках",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer",
+            "example" : 112345
+          }
+        }, {
+          "name" : "masked_pan",
+          "in" : "query",
+          "description" : "4 последних цифры номера карты",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "example" : "0429"
+          }
+        }, {
+          "name" : "order_num",
+          "in" : "query",
+          "description" : "Номер заказа в системе магазина, для клиента",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "example" : "AGR-445611"
+          }
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "Results page you want to retrieve (0..N)",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer",
+            "example" : 1
+          }
+        }, {
+          "name" : "size",
+          "in" : "query",
+          "description" : "Number of records per page.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer",
+            "example" : 20
+          }
+        }, {
+          "name" : "sort",
+          "in" : "query",
+          "description" : "Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "example" : "created,DESC"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Список счетов",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "bad input parameter",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_400"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Access token is missing or invalid"
+          },
+          "default" : {
+            "description" : "Unexpected error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/base_response"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "payments" ],
+        "summary" : "Создать счет на оплату",
+        "description" : "Создать счет на оплату для клиента.\n",
+        "operationId" : "create_invoice",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/invoices_body"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Идентификатор созданного счета",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_1"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "bad input parameter",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/base_response"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Access token is missing or invalid"
+          },
+          "default" : {
+            "description" : "Unexpected error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/base_response"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/invoices/{invoice_id}" : {
+      "get" : {
+        "tags" : [ "payments" ],
+        "summary" : "Получить данные по счету",
+        "description" : "Получить данные по счету. Вначале счет создается операцией POST invoices, затем вызывается эта операция для получения данных счета и продолжения операции.\nВозможен поиск счета по паре service_id+order_id, если invoice_id неизвестен. Для этого нужно указать invoice_id = 0, а в запросе обязательно service_id и order_id.\n",
+        "operationId" : "get_invoice",
+        "parameters" : [ {
+          "name" : "invoice_id",
+          "in" : "path",
+          "description" : "ID счета для поиска. Если в этом параметре передается \"0\", то используются альтернативные параметры для поиска счета, если положительное значение, тогда для поиска счета используется этот параметр, остальные игнорируются (за исключением inv_status и wait)",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "description" : "ID счета",
+            "example" : "ad454ffg-6c54-4b01-90e6-d701748f0851"
+          }
+        }, {
+          "name" : "service_id",
+          "in" : "query",
+          "description" : "ID сервиса для поиска. Используется в паре с параметром order_id",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "$ref" : "#/components/schemas/service_id"
+          }
+        }, {
+          "name" : "order_id",
+          "in" : "query",
+          "description" : "Идентификатор заказа смартаппа, переданный при создании счета",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "$ref" : "#/components/schemas/order_id"
+          }
+        }, {
+          "name" : "inv_status",
+          "in" : "query",
+          "description" : "Статус счета для начала отслеживания изменений. Если при вызове запроса счет найден, статус равен значению этого параметра, то ответ отдается только при смене статуса или по таймауту. Используется в \"long polling\" запросах для отслеживания факта проведения оплаты.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "example" : "executed"
+          }
+        }, {
+          "name" : "wait",
+          "in" : "query",
+          "description" : "Время в секундах, которое источник запрос будет ожидать до смены статуса счета. Используется в \"long polling\" запросах для отслеживания факта проведения оплаты.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer",
+            "example" : 50
+          }
+        }, {
+          "name" : "all_info",
+          "in" : "query",
+          "description" : "Признак, что требуется предоставить расширенную информацию по счету, включая бонусный баланс клиента. Используется платежной библиотекой при первом запросе информации по счету, для отображения платежной формы клиенту. Если не указать, возвращается только основная информация.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "boolean",
+            "example" : true
+          }
+        }, {
+          "name" : "time_to_get_ext_info",
+          "in" : "query",
+          "description" : "Время в секундах, которое источник запроса дает на получение расширенной информации по счету, например, инфо о бонусах. Если за указанное время не удалось получить расширенную информацию, то следует отдать только основную информацию и специальный код ответа. Используется совместно с параметром all_info. Если не указать, то будут использованы стандартные таймауты.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer",
+            "example" : 5
+          }
+        }, {
+          "name" : "device_platform_type",
+          "in" : "query",
+          "description" : "Наименование операционной системы устройства",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "iOS"
+        }, {
+          "name" : "device_platform_version",
+          "in" : "query",
+          "description" : "Версия операционной системы устройства",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "13.6.1"
+        }, {
+          "name" : "device_model",
+          "in" : "query",
+          "description" : "Модель устройства",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "iPhone 7"
+        }, {
+          "name" : "device_manufacturer",
+          "in" : "query",
+          "description" : "Производитель устройства",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "Apple"
+        }, {
+          "name" : "device_id",
+          "in" : "query",
+          "description" : "Серийный номер устройства",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "83c3f257-46d8-41fe-951b-f79d04e288c2"
+        }, {
+          "name" : "surface",
+          "in" : "query",
+          "description" : "Поверхность",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "SBOL"
+        }, {
+          "name" : "surface_version",
+          "in" : "query",
+          "description" : "Версия ПО",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "11.5.0"
+        }, {
+          "name" : "user_id",
+          "in" : "query",
+          "description" : "Идентификатор пользователя, заполняется только если передается токен партнера, для получения инфо по пользователю, если у токена партнера есть соответстующее право. Если передается токен клиента, то этот параметр игнорируется, данные выбираются по пользователю из токена",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "$ref" : "#/components/schemas/user_id_1"
+          }
+        }, {
+          "name" : "receipt_info",
+          "in" : "query",
+          "description" : "Признак, что в ответ надо добавить информацию о чеках, переданных в ОФД.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "boolean",
+            "example" : true
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Данные по счету, а также варианты оплаты в зависимости от статуса",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_2"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "bad input parameter",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_400"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Access token is missing or invalid"
+          },
+          "default" : {
+            "description" : "Unexpected error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/base_response"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "payments" ],
+        "summary" : "Подтвердить оплату счета. Используется при двустадийных платежах.",
+        "description" : "Инициатор присылает подтверждение, полное или частичное, для завершения оплаты счета при двухстадийной оплате. Счет должен находиться в состоянии 3 \"Предавторизация\". По завершении счет переходит в состояние 0 \"Оплачен\"\n",
+        "operationId" : "confirm_invoice",
+        "parameters" : [ {
+          "name" : "invoice_id",
+          "in" : "path",
+          "description" : "ID счета",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "example" : "d290f1ee-6c54-4b01-90e6-d701748f0851"
+          }
+        }, {
+          "name" : "author",
+          "in" : "header",
+          "description" : "Пользователь, который производит изменения",
+          "required" : false,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "description" : "Инфо о подтверждении/отмене счета",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/invoice"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Счет подтвержден",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/base_response"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "bad input parameter",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/base_response"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Access token is missing or invalid"
+          },
+          "default" : {
+            "description" : "Unexpected error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/base_response"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "payments" ],
+        "summary" : "Обновить данные по счету",
+        "description" : "Обновить данные по счету. После создания счета клиент может указать платежный инструмент\n",
+        "operationId" : "upd_invoice",
+        "parameters" : [ {
+          "name" : "invoice_id",
+          "in" : "path",
+          "description" : "ID счета",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "example" : "d290f1ee-6c54-4b01-90e6-d701748f0851"
+          }
+        } ],
+        "requestBody" : {
+          "description" : "Инфо о платежном инструменте",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/invoices_invoice_id_body"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Статус счета, в зависимости от статуса варианты оплаты",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_3"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "bad input parameter",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_400"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Access token is missing or invalid"
+          },
+          "default" : {
+            "description" : "Unexpected error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/base_response"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "payments" ],
+        "summary" : "Отменить оплату счета. Используется при двустадийных платежах.",
+        "description" : "Инициатор присылает запрос на отмену оплаты счета при двухстадийной оплате. Счет должен находиться в состоянии 3 \"Предавторизация\". По завершении счет переходит в состояние 6 \"Отменен\"\n",
+        "operationId" : "delete_invoice",
+        "parameters" : [ {
+          "name" : "invoice_id",
+          "in" : "path",
+          "description" : "ID счета",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "example" : "d290f1ee-6c54-4b01-90e6-d701748f0851"
+          }
+        }, {
+          "name" : "author",
+          "in" : "header",
+          "description" : "Пользователь, который производит изменения",
+          "required" : false,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Счет отменен"
+          },
+          "400" : {
+            "description" : "bad input parameter",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/base_response"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Access token is missing or invalid"
+          },
+          "default" : {
+            "description" : "Unexpected error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/base_response"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "payments" ],
+        "summary" : "Сделать возврат счета, полный или частичный.",
+        "description" : "Инициатор присылает запрос на возврат, полный или частичный. Счет должен находиться в состоянии 0 \"Оплачен\". Запрос можно выполнять несколько раз, вплоть до полного возврата. Если произведен полный возврат, то счет переходит в состояние 7 \"Возвращен\"\n",
+        "operationId" : "refund_invoice",
+        "parameters" : [ {
+          "name" : "invoice_id",
+          "in" : "path",
+          "description" : "ID счета",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "example" : "d290f1ee-6c54-4b01-90e6-d701748f0851"
+          }
+        }, {
+          "name" : "author",
+          "in" : "header",
+          "description" : "Пользователь, который производит изменения",
+          "required" : false,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "description" : "Инфо об отмене счета. В частности, отменяемая сумма и корзина возврата",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/invoice_refund"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Возврат произведен",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/base_response"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "bad input parameter",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/base_response"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Access token is missing or invalid"
+          },
+          "default" : {
+            "description" : "Unexpected error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/base_response"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/invoicesdigital/{invoice_id}" : {
+      "put" : {
+        "tags" : [ "payments" ],
+        "summary" : "Подтвердить оплату счета при оплате в applestore/googleplay.",
+        "description" : "Фронт присылает подтверждение по оплате с дополнительными атрибутами транзакции, например, чек и сумма транзакции в валюте. Бэк проверяет данные в сторе и производит подтверждение счета.\n",
+        "operationId" : "confirm_digital_invoice",
+        "parameters" : [ {
+          "name" : "invoice_id",
+          "in" : "path",
+          "description" : "ID счета",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "example" : "d290f1ee-6c54-4b01-90e6-d701748f0851"
+          }
+        }, {
+          "name" : "author",
+          "in" : "header",
+          "description" : "Пользователь, который производит изменения",
+          "required" : false,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "description" : "Инфо о подтверждении/отмене счета",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/invoice_digital"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Счет подтвержден",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/base_response"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "bad input parameter",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/base_response"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Access token is missing or invalid"
+          },
+          "default" : {
+            "description" : "Unexpected error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/base_response"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/payment-form" : {
+      "get" : {
+        "tags" : [ "payments" ],
+        "summary" : "Адрес Inapp, с которого происходит перенаправление на форму оплаты",
+        "description" : "Адрес Inapp для трекинга клиентов, с которого происходит перенаправление на форму оплаты\n",
+        "operationId" : "get_payment_form",
+        "parameters" : [ {
+          "name" : "payment_uid",
+          "in" : "query",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "description" : "Идентификатор платежа.Используется для трекинга клиента"
+          }
+        } ],
+        "responses" : {
+          "302" : {
+            "description" : "Перенаправление на форму оплаты",
+            "headers" : {
+              "Location" : {
+                "description" : "URI, на который переадресовывается клиент",
+                "style" : "simple",
+                "explode" : false,
+                "schema" : {
+                  "type" : "string",
+                  "format" : "uri"
+                },
+                "examples" : {
+                  "302Yoomoney-form" : {
+                    "description" : "Redirect URL Yoomoney form",
+                    "value" : "https://yoomoney.ru/quickpay/shop-widget?writer=seller&targets=yoomoney%20conf&default-sum=0&button-text=11&payment-type-choice=on&mobile-payment-type-choice=on&successURL=https%3A%2F%2Fsecurepayments.sberbank.ru%2Fwiki%2Fdoku.php%2Ftest_cards?payment_uid&quickpay=shop&account=4100117194702241"
+                  },
+                  "302ErrorRedirect" : {
+                    "description" : "Redirect negative URL.",
+                    "value" : "https://sberdevices.ru/payment/error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/callback" : {
+      "get" : {
+        "tags" : [ "callback" ],
+        "summary" : "Получить список карт клиента",
+        "description" : "Получить оповещение о платеже от РБС.\n",
+        "operationId" : "get_callback",
+        "parameters" : [ {
+          "name" : "mdOrder",
+          "in" : "query",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "description" : "Уникальный номер заказа в платёжной системе.",
+            "example" : "ad454ffg-6c54-4b01-90e6-d701748f0851"
+          }
+        }, {
+          "name" : "orderNumber",
+          "in" : "query",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "description" : "Уникальный номер (идентификатор) заказа в системе магазина.",
+            "example" : "ad454ffg-6c54-4b01-90e6-d701748f0851"
+          }
+        }, {
+          "name" : "checksum",
+          "in" : "query",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "description" : "Аутентификационный код, или контрольная сумма, полученная из набора параметров.",
+            "example" : "DBBE9E54D42072D8CAF32C7F660DEB82086A25C14FD813888E231A99E1220AB3"
+          }
+        }, {
+          "name" : "operation",
+          "in" : "query",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "description" : "Тип операции, о которой пришло уведомление.",
+            "example" : "approved",
+            "enum" : [ "approved", "deposited", "reversed", "refunded", "declinedByTimeout" ]
+          }
+        }, {
+          "name" : "status",
+          "in" : "query",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer",
+            "description" : "Индикатор успешности операции, указанной в параметре operation.",
+            "example" : 0,
+            "enum" : [ 0, 1 ]
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Уведомление о получении оповещения"
+          },
+          "400" : {
+            "description" : "bad input parameter"
+          },
+          "401" : {
+            "description" : "Access token is missing or invalid"
+          },
+          "default" : {
+            "description" : "Unexpected error"
+          }
+        },
+        "security" : [ ]
+      }
+    },
+    "/cards" : {
+      "get" : {
+        "tags" : [ "cards" ],
+        "summary" : "Получить список карт клиента",
+        "description" : "Получить список связок для клиента.\n",
+        "operationId" : "get_cards",
+        "parameters" : [ {
+          "name" : "user_id_type",
+          "in" : "query",
+          "description" : "Тип идентификатора клиента",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "sub_id", "ucp_id", "user_uid", "encrypted_sub_id", "partner_client_sub_id", "partner_client_id" ]
+          },
+          "example" : "partner_client_id"
+        }, {
+          "name" : "user_id",
+          "in" : "query",
+          "description" : "Идентификатор клиента",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "uu-123456"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Список карт клиента",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_4"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "bad input parameter",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/base_response"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Access token is missing or invalid"
+          },
+          "default" : {
+            "description" : "Unexpected error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/base_response"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "cards" ],
+        "summary" : "Добавить банковскую карту клиента",
+        "description" : "Добавить связку для банковской карты. Затем эту связку можно использовать для безакцептной оплаты. По факту это создание счета на оплату, например, 1 руб. для проверки валидности карты, после подтверждения оплаты счет автоматически удаляется.\n",
+        "operationId" : "add_card",
+        "requestBody" : {
+          "description" : "return_urls",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/cards_body"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Ссылка для проведения оплаты",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_5"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "bad input parameter",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/base_response"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Access token is missing or invalid"
+          },
+          "default" : {
+            "description" : "Unexpected error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/base_response"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cards/{card_id}" : {
+      "get" : {
+        "tags" : [ "cards" ],
+        "summary" : "Получить информацию о банковской карте",
+        "description" : "Получить полную информацию о карте.\n",
+        "operationId" : "get_card",
+        "parameters" : [ {
+          "name" : "card_id",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "description" : "ID карты",
+            "example" : "ad454ffg-6c54-4b01-90e6-d701748f0851"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Инфо о карте",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_6"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "bad input parameter",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/base_response"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Access token is missing or invalid"
+          },
+          "default" : {
+            "description" : "Unexpected error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/base_response"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "cards" ],
+        "summary" : "Обновить данные банковской карты",
+        "description" : "Обновить данные о банковской карте. \n",
+        "operationId" : "update_card",
+        "parameters" : [ {
+          "name" : "card_id",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "description" : "ID карты",
+            "example" : "ad454ffg-6c54-4b01-90e6-d701748f0851"
+          }
+        } ],
+        "requestBody" : {
+          "description" : "Инфо о карте",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/cards_card_id_body"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "204" : {
+            "description" : "Успешно обновлено"
+          },
+          "400" : {
+            "description" : "bad input parameter",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/base_response"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Access token is missing or invalid"
+          },
+          "default" : {
+            "description" : "Unexpected error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/base_response"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "cards" ],
+        "summary" : "Удалить банковскую карту",
+        "description" : "Удалить карту.\n",
+        "operationId" : "delete_card",
+        "parameters" : [ {
+          "name" : "card_id",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "description" : "ID карты",
+            "example" : "ad454ffg-6c54-4b01-90e6-d701748f0851"
+          }
+        }, {
+          "name" : "user_id_type",
+          "in" : "query",
+          "description" : "Тип идентификатора клиента",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "sub_id", "ucp_id", "user_uid", "encrypted_sub_id", "partner_client_sub_id", "partner_client_id" ]
+          },
+          "example" : "partner_client_id"
+        }, {
+          "name" : "user_id",
+          "in" : "query",
+          "description" : "Идентификатор клиента",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "uu-123456"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Карта успешно удалена"
+          },
+          "400" : {
+            "description" : "bad input parameter",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/base_response"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Access token is missing or invalid"
+          },
+          "default" : {
+            "description" : "Unexpected error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/base_response"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "p_encrypted_sub_id" : {
+        "required" : [ "encrypted_sub_id" ],
+        "type" : "object",
+        "properties" : {
+          "encrypted_sub_id" : {
+            "type" : "string",
+            "description" : "Зашифрованный sub_id пользователя",
+            "example" : "wE8B12AKT5tbzBOFSM+wk8kK0Xzh/i8J2WRZvP+39b+uvDOi3Smamt1ZQtcsKvGa75QlOFFq838JwbZeBUBtMBoU+pvBnNDpXVDNrGh/KFpN/TYslVtS7wJbKkaxPTjX"
+          }
+        },
+        "additionalProperties" : false
+      },
+      "p_user_uid" : {
+        "required" : [ "user_uid" ],
+        "type" : "object",
+        "properties" : {
+          "user_uid" : {
+            "type" : "string",
+            "description" : "Внутренний идентификатор пользователя в приложении",
+            "example" : "d43f2eb6-f299-439b-8a3b-43b114531f0d"
+          }
+        },
+        "additionalProperties" : false
+      },
+      "p_partner_client_id" : {
+        "required" : [ "partner_client_id" ],
+        "type" : "object",
+        "properties" : {
+          "partner_client_id" : {
+            "type" : "string",
+            "description" : "Внешний идентификатор клиента партнера",
+            "example" : "43u111539f0q"
+          }
+        },
+        "additionalProperties" : false
+      },
+      "p_partner_client_sub_id" : {
+        "required" : [ "partner_client_sub_id" ],
+        "type" : "object",
+        "properties" : {
+          "partner_client_sub_id" : {
+            "type" : "string",
+            "description" : "Внешний идентификатор sub-а клиента партнера",
+            "example" : "43u111539f0q"
+          }
+        },
+        "additionalProperties" : false
+      },
+      "return_urls" : {
+        "type" : "object",
+        "properties" : {
+          "return_url" : {
+            "type" : "string",
+            "description" : "Адрес, на который требуется перенаправить пользователя в случае успешной оплаты. Адрес должен быть указан полностью, включая используемый протокол (например, https://test.ru вместо test.ru)."
+          },
+          "fail_url" : {
+            "type" : "string",
+            "description" : "Адрес, на который требуется перенаправить пользователя в случае неуспешной оплаты. Адрес должен быть указан полностью, включая используемый протокол (например, https://test.ru вместо test.ru)."
+          },
+          "return_deeplink" : {
+            "type" : "string",
+            "description" : "Deeplink, на который требуется перенаправить пользователя после успешной оплаты через мобильное приложение."
+          }
+        }
+      },
+      "invoice_consume" : {
+        "required" : [ "state" ],
+        "type" : "object",
+        "properties" : {
+          "state" : {
+            "type" : "integer",
+            "description" : "Состояние счета.| 0 - подтвержден 6 - отменен приложением после оплаты",
+            "enum" : [ 0, 6 ]
+          }
+        }
+      },
+      "invoice_payment_info" : {
+        "type" : "object",
+        "properties" : {
+          "payment_info" : {
+            "allOf" : [ {
+              "type" : "object",
+              "properties" : {
+                "payment_date" : {
+                  "type" : "string",
+                  "description" : "Дата и время оплаты счета, [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt)",
+                  "format" : "date-time"
+                },
+                "payment_id" : {
+                  "$ref" : "#/components/schemas/payment_id"
+                },
+                "payment_params" : {
+                  "required" : [ "key", "value" ],
+                  "type" : "object",
+                  "properties" : {
+                    "key" : {
+                      "type" : "string",
+                      "description" : "Название параметра.",
+                      "example" : "googlePurchaseToken"
+                    },
+                    "value" : {
+                      "type" : "string",
+                      "description" : "Значение параметра",
+                      "example" : "ameinkbophchljaejnocadib.AO-J1Oyrh3GSPGrLocZlW4UXiilTv_fMDz8Wpjadky8-26BhzBPMiwtoKql706e3ntW2BQNdl9WSiBjsjLebCcz3BhFyM7FVxDnOB1TFeeA0SHnco9j8G_OZVxghv7bwXWLgWsaUUGfw"
+                    }
+                  },
+                  "description" : "Доп. параметр"
+                },
+                "device_info" : {
+                  "$ref" : "#/components/schemas/device"
+                },
+                "loyalty_info" : {
+                  "$ref" : "#/components/schemas/loyalty_info"
+                }
+              }
+            }, {
+              "$ref" : "#/components/schemas/card"
+            } ]
+          }
+        }
+      },
+      "invoices_payment_info" : {
+        "type" : "object",
+        "properties" : {
+          "payment_info" : {
+            "allOf" : [ {
+              "type" : "object",
+              "properties" : {
+                "payment_date" : {
+                  "type" : "string",
+                  "description" : "Дата и время оплаты счета, [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt)",
+                  "format" : "date-time"
+                },
+                "payment_id" : {
+                  "$ref" : "#/components/schemas/payment_id"
+                },
+                "device_info" : {
+                  "$ref" : "#/components/schemas/device"
+                },
+                "loyalty_info" : {
+                  "$ref" : "#/components/schemas/loyalty_info"
+                }
+              }
+            }, {
+              "$ref" : "#/components/schemas/card_c"
+            } ]
+          }
+        }
+      },
+      "invoice_ptype" : {
+        "type" : "object",
+        "properties" : {
+          "ptype" : {
+            "type" : "integer",
+            "description" : "Тип оплаты счета. 0 - одностадийная оплата 1 - двухстадийная оплата Если параметр не указан, формируется одностадийная оплата.\n",
+            "enum" : [ 0, 1 ]
+          }
+        }
+      },
+      "cards" : {
+        "type" : "object",
+        "properties" : {
+          "cards" : {
+            "type" : "array",
+            "items" : {
+              "allOf" : [ {
+                "$ref" : "#/components/schemas/card"
+              }, {
+                "type" : "object",
+                "properties" : {
+                  "loyalty_perhaps" : {
+                    "type" : "boolean",
+                    "description" : "Признак потенциальной возможности использования бонусов при оплате. Если true, то имеет смысл выполнять запрос на получение бонусов по этой карте."
+                  }
+                }
+              }, {
+                "type" : "object",
+                "properties" : {
+                  "loyalty" : {
+                    "$ref" : "#/components/schemas/loyalty"
+                  }
+                }
+              } ]
+            }
+          }
+        },
+        "description" : "Платежные инструменты"
+      },
+      "cards1" : {
+        "type" : "object",
+        "properties" : {
+          "cards" : {
+            "type" : "array",
+            "items" : {
+              "allOf" : [ {
+                "$ref" : "#/components/schemas/card"
+              } ]
+            }
+          }
+        },
+        "description" : "Платежные инструменты"
+      },
+      "payment_methods" : {
+        "type" : "object",
+        "properties" : {
+          "payment_methods" : {
+            "$ref" : "#/components/schemas/payment_methods_payment_methods"
+          }
+        },
+        "description" : "Платежные инструменты"
+      },
+      "receipts" : {
+        "type" : "object",
+        "properties" : {
+          "receipts" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/receipt"
+            }
+          }
+        },
+        "description" : "Чеки клиента"
+      },
+      "receipt" : {
+        "type" : "object",
+        "properties" : {
+          "receipt_status" : {
+            "type" : "string",
+            "description" : "Статус чека",
+            "enum" : [ "Отправлен платёж", "Доставлен платёж", "Ошибка платежа", "Отправлен возврат", "Доставлен возврат", "Ошибка возврата" ]
+          },
+          "uuid" : {
+            "type" : "string",
+            "description" : "Идентификатор чека в фискализаторе",
+            "example" : "2a94d68b-551f-4e7c-855d-ba2b45d256e7"
+          },
+          "original_ofd_uuid" : {
+            "type" : "string",
+            "description" : "Идентификатор чека в шлюзе",
+            "example" : "fee281a3-d22c-4bb0-a91e-781a7d321f4e"
+          },
+          "shift_number" : {
+            "type" : "string",
+            "description" : "Номер смены.",
+            "example" : "268"
+          },
+          "fiscal_receipt_number" : {
+            "type" : "string",
+            "description" : "Номер чека в смене.",
+            "example" : "146"
+          },
+          "receipt_date_time" : {
+            "type" : "string",
+            "description" : "Дата и время чека в фискальном накопителе.",
+            "format" : "date-time"
+          },
+          "fn_number" : {
+            "type" : "string",
+            "description" : "Номер фискального накопителя.",
+            "example" : "9960440301072974"
+          },
+          "ecr_registration_number" : {
+            "type" : "string",
+            "description" : "Регистрационный номер контрольно-кассовой техники.",
+            "example" : "0006055257001951"
+          },
+          "fiscal_document_number" : {
+            "type" : "string",
+            "description" : "Фискальный номер документа.",
+            "example" : "144953"
+          },
+          "fiscal_document_attribute" : {
+            "type" : "string",
+            "description" : "Фискальный признак документа.",
+            "example" : "1749459453"
+          },
+          "amount_total" : {
+            "type" : "string",
+            "description" : "Итоговая сумма чека в рублях.",
+            "example" : "95"
+          },
+          "fns_site" : {
+            "type" : "string",
+            "description" : "Адрес сайта ФНС.",
+            "example" : "www.nalog.gov.ru"
+          },
+          "ofd_receipt_url" : {
+            "type" : "string",
+            "description" : "Ссылка на чек.",
+            "example" : "https://lk.platformaofd.ru/web/noauth/cheque?fn=9960440301072974&fp=1749459453&i=144953"
+          }
+        },
+        "description" : "Чек"
+      },
+      "card" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/card_i"
+        }, {
+          "$ref" : "#/components/schemas/card_c"
+        } ]
+      },
+      "card_i" : {
+        "required" : [ "card_id" ],
+        "type" : "object",
+        "properties" : {
+          "card_id" : {
+            "type" : "string",
+            "description" : "id карты",
+            "example" : "ad454ffg-6c54-4b01-90e6-d701748f0851"
+          },
+          "name" : {
+            "type" : "string",
+            "description" : "Алиас карты, указанный клиентом",
+            "example" : "Главная"
+          },
+          "paysys_code" : {
+            "type" : "string",
+            "description" : "Код платёжного оператора.",
+            "example" : "RBS-shortname"
+          }
+        },
+        "description" : "Данные банковской карты (связки)"
+      },
+      "card_c" : {
+        "type" : "object",
+        "properties" : {
+          "masked_pan" : {
+            "type" : "string",
+            "description" : "Маскированный номер карты",
+            "example" : "**1111"
+          },
+          "expiry_date" : {
+            "type" : "string",
+            "description" : "Срок истечения действия карты в формате YYYYMM",
+            "example" : "201912"
+          },
+          "cardholder" : {
+            "type" : "string",
+            "description" : "Имя держателя карты, указанное при оплате",
+            "example" : "Ivan Petrov"
+          },
+          "payment_system" : {
+            "type" : "string",
+            "description" : "Наименование платёжной системы.",
+            "example" : "Visa"
+          },
+          "payment_system_image" : {
+            "type" : "string",
+            "description" : "Логотип платёжной системы.",
+            "format" : "url",
+            "example" : "https://smartmarkettestift.online.sberbank.ru/icons/logo_visa.png"
+          },
+          "image" : {
+            "type" : "string",
+            "description" : "Логотип карты.",
+            "format" : "url",
+            "example" : "https://smartmarkettestift.online.sberbank.ru/icons/sberbank_mastercard_league_legends.jpeg"
+          },
+          "paysys" : {
+            "type" : "string",
+            "description" : "Наименование платёжного оператора.",
+            "example" : "Эквайринг Сбербанка"
+          },
+          "paysys_image" : {
+            "type" : "string",
+            "description" : "Логотип платёжного оператора.",
+            "format" : "url",
+            "example" : "https://www.sberbank.ru/common/img/uploaded/redirected/s_m_business/acquiring/assets/images/intro@2x.png"
+          },
+          "payment_way" : {
+            "type" : "string",
+            "description" : "Наименование способа оплаты",
+            "example" : "Sber Pay"
+          },
+          "payment_way_code" : {
+            "type" : "string",
+            "description" : "Код способа оплаты",
+            "example" : "SberPay"
+          },
+          "payment_way_logo" : {
+            "type" : "string",
+            "description" : "Логотип способа оплаты",
+            "format" : "url",
+            "example" : "https://cdn1.telegram.one/i/f7640dada78306b1c993e04001b8738d/828b1eb30921659e22e53a9edc92c4c4/24e01830d213d75deb99c22b9cd91ddd"
+          },
+          "bank_info" : {
+            "$ref" : "#/components/schemas/bank_info"
+          }
+        },
+        "description" : "Данные банковской карты (связки)"
+      },
+      "bank_info" : {
+        "type" : "object",
+        "properties" : {
+          "bank_name" : {
+            "type" : "string",
+            "description" : "Наименование банка-эмитента.",
+            "example" : "ПАО Сбербанк"
+          },
+          "bank_country_code" : {
+            "type" : "string",
+            "description" : "Код страны банка-эмитента.",
+            "example" : "RU"
+          },
+          "bank_country_name" : {
+            "type" : "string",
+            "description" : "Наименование страны банка-эмитента",
+            "example" : "Россия"
+          },
+          "bank_image" : {
+            "type" : "string",
+            "description" : "Ссылка на логотип банка",
+            "example" : "https://emoji.slack-edge.com/TKK9DHNCV/sber/ad2df81a6cd9812d.png"
+          }
+        },
+        "description" : "Данные банка-эмитента"
+      },
+      "error1" : {
+        "type" : "object",
+        "properties" : {
+          "user_message" : {
+            "type" : "string"
+          },
+          "error_description" : {
+            "type" : "string"
+          },
+          "error_code" : {
+            "type" : "integer"
+          }
+        }
+      },
+      "error" : {
+        "type" : "object",
+        "properties" : {
+          "error" : {
+            "$ref" : "#/components/schemas/error1"
+          }
+        }
+      },
+      "base_response" : {
+        "$ref" : "#/components/schemas/error"
+      },
+      "form_url" : {
+        "type" : "object",
+        "properties" : {
+          "form_url" : {
+            "type" : "string",
+            "description" : "URL платежной формы, на который надо перенаправить браузер клиента",
+            "example" : "https://3dsec.sberbank.ru/payment/merchants/test/payment_ru.html?mdOrder=70906e55-7114-41d6-8332-4609dc6590f4"
+          },
+          "deeplink" : {
+            "type" : "string",
+            "description" : "Deeplink, на который надо перенаправить клиента для оплаты в мобильном приложении",
+            "example" : "sberbankonline://connect?addcard"
+          }
+        },
+        "description" : "Информация для оплаты счета"
+      },
+      "product_stores" : {
+        "type" : "object",
+        "properties" : {
+          "provider" : {
+            "type" : "string",
+            "description" : "Платежная система",
+            "example" : "applestore",
+            "enum" : [ "applestore", "googleplay" ]
+          },
+          "product_code" : {
+            "type" : "string",
+            "description" : "Идентификатор продукта в платежной системе",
+            "example" : "d290f1ee-6c54-4b01-90e6-d701748f0851"
+          },
+          "quantity" : {
+            "type" : "number",
+            "description" : "Количество продукта",
+            "example" : 1.5
+          },
+          "user_uid" : {
+            "$ref" : "#/components/schemas/user_uid"
+          },
+          "params" : {
+            "$ref" : "#/components/schemas/params"
+          },
+          "inapp_type" : {
+            "type" : "string",
+            "description" : "Тип продукта",
+            "example" : "consumable"
+          }
+        },
+        "description" : "Информация по продукту для оплаты счета в apple/google"
+      },
+      "loyaltys" : {
+        "type" : "object",
+        "properties" : {
+          "loyaltys" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/loyalty"
+            }
+          }
+        },
+        "description" : "Информация по бонусам для оплаты счета"
+      },
+      "loyalty" : {
+        "description" : "Информация по бонусам программы",
+        "allOf" : [ {
+          "required" : [ "change_rate", "service_code", "service_name" ],
+          "type" : "object",
+          "properties" : {
+            "service_code" : {
+              "type" : "string",
+              "description" : "Код бонусной программы",
+              "example" : "sbrf_spasibo"
+            },
+            "service_name" : {
+              "type" : "string",
+              "description" : "Наименование бонусной программы",
+              "example" : "Сбербанк Спасибо"
+            },
+            "change_rate" : {
+              "type" : "number",
+              "description" : "Коэффициент обмена баллов на рубли. Например, 100 баллов / 1.25 (коэффициент) = 80 руб. Будет списано 100 баллов, сумма платежа уменьшена на 80 руб.",
+              "example" : 1.0
+            },
+            "balance" : {
+              "type" : "integer",
+              "description" : "Баланс бонусных баллов для карты. Указывается в минимальных единицах (в копейках). Например, 123 балла 50 копеек = 12350",
+              "example" : 30025000
+            },
+            "min_amount" : {
+              "type" : "integer",
+              "description" : "Минимальная сумма бонусных баллов, которая может быть использована при оплате заказа. Указывается в минимальных единицах (в копейках). Например, 123 балла 50 копеек = 12350",
+              "example" : 0
+            },
+            "max_amount" : {
+              "type" : "integer",
+              "description" : "Максимальная сумма бонусных баллов, которая может быть использована при оплате заказа. Указывается в минимальных единицах (в копейках). Например, 123 балла 50 копеек = 12350",
+              "example" : 19800
+            },
+            "action" : {
+              "type" : "string",
+              "description" : "Название кнопки оплаты в случае выбора клиентом оплаты с бонусами",
+              "example" : "Оплатить 1 ₽"
+            },
+            "visual_amount" : {
+              "type" : "string",
+              "description" : "Сумма бонусов для отображения",
+              "example" : "1 500,45"
+            },
+            "visual_label" : {
+              "type" : "string",
+              "description" : "Сумма бонусов с текстом для отображения",
+              "example" : "Списать бонусов 1 500,45"
+            },
+            "action_message" : {
+              "type" : "string",
+              "description" : "Сообщение на платежной форме при выборе клиентом оплаты с бонусами",
+              "example" : "Оплатить подписку сейчас можно бонусами, а продлить её — только за рубли."
+            }
+          }
+        }, {
+          "$ref" : "#/components/schemas/image"
+        } ]
+      },
+      "loyalty_info" : {
+        "description" : "Информация по бонусам после оплаты",
+        "allOf" : [ {
+          "required" : [ "change_rate", "service_code", "service_name" ],
+          "type" : "object",
+          "properties" : {
+            "service_code" : {
+              "type" : "string",
+              "description" : "Код бонусной программы",
+              "example" : "sbrf_spasibo"
+            },
+            "service_name" : {
+              "type" : "string",
+              "description" : "Наименование бонусной программы",
+              "example" : "Сбербанк Спасибо"
+            },
+            "change_rate" : {
+              "type" : "number",
+              "description" : "Коэффициент обмена баллов на рубли. Например, 100 баллов / 1.25 (коэффициент) = 80 руб. Будет списано 100 баллов, сумма платежа уменьшена на 80 руб.",
+              "example" : 1.0
+            },
+            "payment_bonus" : {
+              "type" : "integer",
+              "description" : "Сумма бонусных баллов, использованная при оплате счета. Указывается в минимальных единицах (в копейках). Например, 123 балла 50 копеек = 12350",
+              "example" : 19800
+            },
+            "award_bonus" : {
+              "type" : "integer",
+              "description" : "Сумма средств, использованных для начисления баллов при оплате заказа. Указывается в минимальных единицах (в копейках). Например, 123 балла 50 копеек = 12350",
+              "example" : 21850
+            }
+          }
+        }, {
+          "$ref" : "#/components/schemas/image"
+        } ]
+      },
+      "operation" : {
+        "type" : "object",
+        "properties" : {
+          "operation" : {
+            "type" : "string",
+            "description" : "Тип операции",
+            "example" : "payment_loyalty_points",
+            "enum" : [ "payment", "prepare_payment", "payment_loyalty_points", "recurrent_loyalty_points" ]
+          },
+          "code" : {
+            "type" : "string",
+            "description" : "Сервисный код операции, зависит от типа операции. Для operation=payment указывается вариант оплаты, выбранный клиентом, например \"card\", допустимо [new,card,QR,app2sbol,invoice,applestore]. Для operation=payment_loyalty_points указывается код бонусной программы, например \"sbrf_spasibo\".\n",
+            "example" : "sbrf_spasibo"
+          },
+          "value" : {
+            "type" : "string",
+            "description" : "Значение, соответствующее сервисному коду   Для operation=payment указывается идентификатор, например для \"card\" указывается ID выбранной карты Для operation=payment_loyalty_points сумма бонусных баллов, которая должна быть использована при совершении операции. Указывается в минимальных единицах (в копейках). Например, 123 балла 50 копеек = 12350\n",
+            "example" : "19800"
+          }
+        },
+        "description" : "Операция"
+      },
+      "invoice_status" : {
+        "type" : "object",
+        "properties" : {
+          "invoice_status" : {
+            "type" : "string",
+            "description" : "Статус счета. Возможные значения > created     создан executed    исполняется cancelled   отменен пользователем paid        оплачен (2-х стадийная оплата) confirmed   подтвержден (1, 2-х стадийная оплата) reversed    отменен (2-х стадийная оплата) refunded    возвращен полностью wait        ожидает подтверждения/отмены/возврата",
+            "example" : "created"
+          }
+        }
+      },
+      "payment_id" : {
+        "type" : "string",
+        "description" : "Идентификатор платежа",
+        "example" : "d290f1ee-6c54-4b01-90e6-d701748f0851"
+      },
+      "invoice_id" : {
+        "required" : [ "invoice_id" ],
+        "type" : "object",
+        "properties" : {
+          "invoice_id" : {
+            "type" : "string",
+            "description" : "Идентификатор счета",
+            "example" : "d290f1ee-6c54-4b01-90e6-d701748f0851"
+          }
+        }
+      },
+      "invoice_date" : {
+        "type" : "object",
+        "properties" : {
+          "invoice_date" : {
+            "type" : "string",
+            "description" : "Дата создания счета",
+            "example" : "2020-04-29T08:18:03+03"
+          }
+        }
+      },
+      "invoice_refund" : {
+        "type" : "object",
+        "properties" : {
+          "invoice" : {
+            "$ref" : "#/components/schemas/invoice_refund_invoice"
+          }
+        }
+      },
+      "invoice" : {
+        "type" : "object",
+        "properties" : {
+          "invoice" : {
+            "$ref" : "#/components/schemas/invoice_invoice"
+          }
+        }
+      },
+      "is_subscription" : {
+        "type" : "object",
+        "properties" : {
+          "is_subscription" : {
+            "type" : "boolean",
+            "description" : "Признак, что это счет для оплаты подписки"
+          }
+        }
+      },
+      "invoice_digital" : {
+        "type" : "object",
+        "properties" : {
+          "pay_status" : {
+            "type" : "integer",
+            "description" : "Статус платежа. 0 - успешно, 1 - неуспешно",
+            "enum" : [ 0, 1 ]
+          },
+          "invoice" : {
+            "$ref" : "#/components/schemas/invoice_digital_invoice"
+          }
+        }
+      },
+      "device" : {
+        "type" : "object",
+        "properties" : {
+          "device_platform_type" : {
+            "type" : "string",
+            "description" : "Наименование операционной системы устройства",
+            "example" : "iOS"
+          },
+          "device_platform_version" : {
+            "type" : "string",
+            "description" : "Версия операционной системы устройства",
+            "example" : "13.6.1"
+          },
+          "device_model" : {
+            "type" : "string",
+            "description" : "Модель устройства",
+            "example" : "iPhone 7"
+          },
+          "device_manufacturer" : {
+            "type" : "string",
+            "description" : "Производитель устройства",
+            "example" : "Apple"
+          },
+          "device_id" : {
+            "type" : "string",
+            "description" : "Серийный номер устройства",
+            "example" : "83c3f257-46d8-41fe-951b-f79d04e288c2"
+          },
+          "surface" : {
+            "type" : "string",
+            "description" : "Поверхность",
+            "example" : "SBOL"
+          },
+          "surface_version" : {
+            "type" : "string",
+            "description" : "Версия ПО",
+            "example" : "11.5.0"
+          }
+        },
+        "description" : "Информация об устройстве"
+      },
+      "invoice_ret" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/invoice_id"
+        }, {
+          "$ref" : "#/components/schemas/invoice_date"
+        }, {
+          "$ref" : "#/components/schemas/invoice_status"
+        }, {
+          "$ref" : "#/components/schemas/invoice"
+        }, {
+          "$ref" : "#/components/schemas/image"
+        }, {
+          "$ref" : "#/components/schemas/app_info"
+        }, {
+          "$ref" : "#/components/schemas/invoice_payment_info"
+        }, {
+          "type" : "object",
+          "properties" : {
+            "invoice" : {
+              "$ref" : "#/components/schemas/is_subscription"
+            }
+          }
+        } ]
+      },
+      "invoices_list" : {
+        "description" : "Список счетов",
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/invoice_id"
+        }, {
+          "$ref" : "#/components/schemas/invoice_date"
+        }, {
+          "$ref" : "#/components/schemas/invoice_status"
+        }, {
+          "$ref" : "#/components/schemas/order2list"
+        }, {
+          "$ref" : "#/components/schemas/app_info"
+        }, {
+          "$ref" : "#/components/schemas/invoices_payment_info"
+        }, {
+          "$ref" : "#/components/schemas/image"
+        } ]
+      },
+      "client_contact" : {
+        "type" : "object",
+        "properties" : {
+          "email" : {
+            "type" : "string",
+            "description" : "email клиента",
+            "example" : "qq@dd.eof"
+          },
+          "phone" : {
+            "type" : "string",
+            "description" : "телефон клиента",
+            "example" : "9123456789"
+          },
+          "contact" : {
+            "type" : "string",
+            "description" : "способ связи с клиентом",
+            "example" : "email"
+          }
+        },
+        "description" : "Клиент"
+      },
+      "user_id" : {
+        "type" : "object",
+        "properties" : {
+          "user_id" : {
+            "allOf" : [ {
+              "type" : "object",
+              "properties" : {
+                "user_channel" : {
+                  "type" : "string",
+                  "description" : "Канал пользователя",
+                  "example" : "COMPANION_B2C"
+                }
+              }
+            } ],
+            "oneOf" : [ {
+              "type" : "object",
+              "properties" : {
+                "ucp_id" : {
+                  "$ref" : "#/components/schemas/ucp_id"
+                }
+              }
+            }, {
+              "type" : "object",
+              "properties" : {
+                "sub_id" : {
+                  "$ref" : "#/components/schemas/sub_id"
+                }
+              }
+            }, {
+              "type" : "object",
+              "properties" : {
+                "user_uid" : {
+                  "$ref" : "#/components/schemas/user_uid"
+                }
+              }
+            }, {
+              "type" : "object",
+              "properties" : {
+                "encrypted_sub_id" : {
+                  "$ref" : "#/components/schemas/encrypted_sub_id"
+                }
+              }
+            }, {
+              "type" : "object",
+              "properties" : {
+                "partner_client_id" : {
+                  "$ref" : "#/components/schemas/partner_client_id"
+                }
+              }
+            }, {
+              "type" : "object",
+              "properties" : {
+                "partner_client_sub_id" : {
+                  "$ref" : "#/components/schemas/partner_client_sub_id"
+                }
+              }
+            } ]
+          }
+        },
+        "description" : "Структура заполняется и передается только с партерским токеном"
+      },
+      "access_token" : {
+        "type" : "object",
+        "properties" : {
+          "token" : {
+            "type" : "string",
+            "description" : "access token пользователя в формате Bearer <token>",
+            "example" : "Bearer eyJhbGciOiJIUzI1NiIsImtpZCI6NDMyNDMyNDMyfQ.eyJhdWQiOiI5OEE4MDY1RS03Qjg1LTQyRTQtODNERC00ODAwNTVEMUJDMEQiLCJjbGllbnRfaWQiOiJEQTUyNzhBQy1BMDdGLUMwMUEtQjJEMy1DMjMxREJCMkUyMEYiLCJzdWIiOiJEMDU1MjUwMUJGN0UwNEZFNUM2MDlENUNFRkE2Nzk5NiIsImlzcyI6Imh0dHBzOi8vb25saW5lLnNiZXJiYW5rLnJ1L0NTQUZyb250L2luZGV4LmRvIiwiZXhwIjoxNTE2NjI5NDMyLCJpYXQiOjE1MTY2Mjk0MDIsImp0aSI6IjI2RDg1RERCLUNFREItNEM3NS1CMjYxLUZEMEY4OUU5RDYxNCJ9.YCyafza5PLTU7JtOZkd78cw4V3-sR7w-OAsuGLb8DnE"
+          }
+        }
+      },
+      "302Yoomoney-form" : {
+        "type" : "string",
+        "description" : "Redirect URL Yoomoney form",
+        "example" : "https://yoomoney.ru/quickpay/shop-widget?writer=seller&targets=yoomoney%20conf&default-sum=0&button-text=11&payment-type-choice=on&mobile-payment-type-choice=on&successURL=https%3A%2F%2Fsecurepayments.sberbank.ru%2Fwiki%2Fdoku.php%2Ftest_cards?payment_uid&quickpay=shop&account=4100117194702241"
+      },
+      "302ErrorRedirect" : {
+        "type" : "string",
+        "description" : "Redirect negative URL",
+        "example" : "https://sberdevices.ru/payment/error"
+      },
+      "ucp_id" : {
+        "type" : "string",
+        "description" : "ЕПК.ID пользователя",
+        "example" : "1269663788098156986"
+      },
+      "sub_id" : {
+        "type" : "string",
+        "description" : "sub_id пользователя",
+        "example" : "a19f38a0e97ed3497be0eca816af4e0db3ddc33029c9d3d9effb9aa5235d168da3028e64eea639f7"
+      },
+      "encrypted_sub_id" : {
+        "type" : "string",
+        "description" : "зашифрованный sub_id пользователя",
+        "example" : "wE8B12AKT5tbzBOFSM+wk8kK0Xzh/i8J2WRZvP+39b+uvDOi3Smamt1ZQtcsKvGa75QlOFFq838JwbZeBUBtMBoU+pvBnNDpXVDNrGh/KFpN/TYslVtS7wJbKkaxPTjX"
+      },
+      "user_uid" : {
+        "type" : "string",
+        "description" : "внутренний uid пользователя InApp",
+        "example" : "d43f2eb6-f299-439b-8a3b-43b114531f0d"
+      },
+      "partner_client_id" : {
+        "type" : "string",
+        "description" : "внешний идентификатор клиента партнера",
+        "example" : "43u111539f0q"
+      },
+      "partner_client_sub_id" : {
+        "type" : "string",
+        "description" : "внешний идентификатор sub-а клиента партнера",
+        "example" : "43u111539f0q"
+      },
+      "delivery_info" : {
+        "type" : "object",
+        "properties" : {
+          "address" : {
+            "$ref" : "#/components/schemas/address"
+          },
+          "delivery_type" : {
+            "type" : "string",
+            "description" : "Тип доставки",
+            "example" : "courier"
+          },
+          "description" : {
+            "type" : "string",
+            "description" : "Дополнительная информация по доставке",
+            "example" : "Перезвонить за 1,5 часа"
+          }
+        },
+        "description" : "Информация о доставке"
+      },
+      "address" : {
+        "type" : "object",
+        "properties" : {
+          "country" : {
+            "type" : "string",
+            "description" : "Страна",
+            "example" : "RU"
+          },
+          "city" : {
+            "type" : "string",
+            "description" : "Город",
+            "example" : "Москва"
+          },
+          "address" : {
+            "type" : "string",
+            "description" : "Адрес",
+            "example" : "ул. Вавилова, 19, офис 1"
+          }
+        },
+        "description" : "Адрес"
+      },
+      "order_id" : {
+        "type" : "string",
+        "description" : "ID заказа в системе магазина",
+        "example" : "d290f1ee-6c54-4b01-90e6-d701748f0851"
+      },
+      "service_id" : {
+        "type" : "string",
+        "description" : "ID сервиса (настраивается платежной системой и выдается пользователю платежного сервиса)",
+        "example" : "d290f1ee-6c54-4b01-90e6-d701748f0851"
+      },
+      "amount" : {
+        "type" : "integer",
+        "description" : "Сумма в минимальных единицах валюты (в копейках). Например, 123р.00коп. = 12300",
+        "example" : 11836
+      },
+      "order_refund" : {
+        "required" : [ "current_amount", "order_bundle", "refund_amount" ],
+        "type" : "object",
+        "properties" : {
+          "current_amount" : {
+            "type" : "integer",
+            "description" : "Сумма счета текущая в минимальных единицах валюты (в копейках). Например, 123р.00коп. = 12300",
+            "example" : 20038
+          },
+          "refund_amount" : {
+            "type" : "integer",
+            "description" : "Сумма возврата в минимальных единицах валюты (в копейках). Например, 123р.00коп. = 12300",
+            "example" : 11836
+          },
+          "currency" : {
+            "type" : "string",
+            "description" : "Код валюты в [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217).",
+            "example" : "RUB"
+          },
+          "order_bundle" : {
+            "type" : "array",
+            "description" : "Состав заказа (элементы корзины)",
+            "items" : {
+              "$ref" : "#/components/schemas/bundle_param_refund"
+            }
+          }
+        },
+        "description" : "Данные заказа для возврата"
+      },
+      "order" : {
+        "required" : [ "amount", "currency" ],
+        "type" : "object",
+        "properties" : {
+          "order_id" : {
+            "$ref" : "#/components/schemas/order_id"
+          },
+          "order_number" : {
+            "type" : "string",
+            "description" : "Номер заказа в системе магазина, для клиента",
+            "example" : "145"
+          },
+          "order_date" : {
+            "type" : "string",
+            "description" : "Дата заказа в системе магазина, [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt)",
+            "format" : "date-time"
+          },
+          "service_id" : {
+            "$ref" : "#/components/schemas/service_id"
+          },
+          "amount" : {
+            "$ref" : "#/components/schemas/amount"
+          },
+          "currency" : {
+            "type" : "string",
+            "description" : "Код валюты в [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217).",
+            "example" : "RUB"
+          },
+          "purpose" : {
+            "type" : "string",
+            "description" : "Краткое назначение платежа или наименование игры на языке language.",
+            "example" : "Покупка в игре \"Маша и Медведь, салон красоты Чародейка\"."
+          },
+          "description" : {
+            "type" : "string",
+            "description" : "Описание платежа для отображения клиенту или печати",
+            "example" : "Покупка внутриигрового контента в игре Маша и Медведь, салон красоты Чародейка."
+          },
+          "language" : {
+            "type" : "string",
+            "description" : "Язык, текстовых полей, указанный с помощью [BCP 47](https://tools.ietf.org/rfc/bcp/bcp47.txt) кодирования. (Например, \"en-US\" для английского языка, используемого в США, \"en-GB\" для английского языка, используемого в Великобритании, и т.д.)",
+            "example" : "ru-RU"
+          },
+          "expiration_date" : {
+            "type" : "string",
+            "description" : "Дата и время окончания жизни счета, [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt)",
+            "format" : "date-time"
+          },
+          "autocompletion_date" : {
+            "type" : "string",
+            "description" : "Дата и время автозавершения платежа при двухстадийной оплате, [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt)",
+            "format" : "date-time"
+          },
+          "tax_system" : {
+            "type" : "integer",
+            "description" : "Система налогообложения, доступны следующие значения\n0 - общая;\n1 - упрощённая, доход;\n2 - упрощённая, доход минус расход;\n3 - единый налог на вменённый доход;\n4 - единый сельскохозяйственный налог;\n5 - патентная система налогообложения. \n",
+            "example" : 0
+          },
+          "trade_name" : {
+            "type" : "string",
+            "description" : "Торговое наименование организации",
+            "example" : "Romashka"
+          },
+          "visual_name" : {
+            "type" : "string",
+            "description" : "Наименование операции для отображения",
+            "example" : "Покупка/продление подписки"
+          },
+          "org_name" : {
+            "type" : "string",
+            "description" : "Наименование организации",
+            "example" : "ООО Ромашка"
+          },
+          "org_inn" : {
+            "type" : "string",
+            "description" : "ИНН организации",
+            "example" : "1234567890"
+          },
+          "visual_amount" : {
+            "type" : "string",
+            "description" : "Сумма для отображения",
+            "example" : "1 500,45 ₽"
+          },
+          "order_bundle" : {
+            "type" : "array",
+            "description" : "Состав заказа (элементы корзины). Обязателен при сумме оплаты больше 0",
+            "items" : {
+              "$ref" : "#/components/schemas/bundle_param"
+            }
+          }
+        },
+        "description" : "Данные заказа"
+      },
+      "order2list" : {
+        "type" : "object",
+        "properties" : {
+          "amount_create" : {
+            "$ref" : "#/components/schemas/amount"
+          },
+          "amount_confirm" : {
+            "$ref" : "#/components/schemas/amount"
+          },
+          "amount_current" : {
+            "$ref" : "#/components/schemas/amount"
+          },
+          "order_number" : {
+            "type" : "string",
+            "description" : "Номер заказа",
+            "example" : "1234567"
+          },
+          "currency" : {
+            "type" : "string",
+            "description" : "Код валюты в [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217).",
+            "example" : "RUB"
+          },
+          "description" : {
+            "type" : "string",
+            "description" : "Описание платежа для отображения клиенту или печати",
+            "example" : "Покупка внутриигрового контента в игре Маша и Медведь, салон красоты Чародейка."
+          },
+          "language" : {
+            "type" : "string",
+            "description" : "Язык, текстовых полей, указанный с помощью [BCP 47](https://tools.ietf.org/rfc/bcp/bcp47.txt) кодирования. (Например, \"en-US\" для английского языка, используемого в США, \"en-GB\" для английского языка, используемого в Великобритании, и т.д.)",
+            "example" : "ru-RU"
+          },
+          "org_name" : {
+            "type" : "string",
+            "description" : "Наименование организации",
+            "example" : "ООО Ромашка"
+          },
+          "org_inn" : {
+            "type" : "string",
+            "description" : "ИНН организации",
+            "example" : "1234567890"
+          },
+          "trademarks" : {
+            "type" : "string",
+            "description" : "Перечисление торговых марок через точку с запятой",
+            "example" : "Ромашка;Romashka;Romashka street"
+          },
+          "trade_name" : {
+            "type" : "string",
+            "description" : "Торговое наименование организации",
+            "example" : "Romashka"
+          },
+          "visual_name" : {
+            "type" : "string",
+            "description" : "Наименование операции для отображения",
+            "example" : "Покупка/продление подписки"
+          },
+          "visual_amount" : {
+            "type" : "string",
+            "description" : "Сумма для отображения",
+            "example" : "1 500,45 ₽"
+          }
+        },
+        "description" : "Данные заказа"
+      },
+      "app_info" : {
+        "type" : "object",
+        "properties" : {
+          "application_code" : {
+            "type" : "string",
+            "description" : "Код приложения",
+            "example" : "com.MashaAndTheBear.HairSalon"
+          },
+          "application_name" : {
+            "type" : "string",
+            "description" : "Наименование приложения",
+            "example" : "Салон красоты \"Маша и медведь\""
+          },
+          "owner_code" : {
+            "type" : "string",
+            "description" : "Код владельца приложения",
+            "example" : "com.MashaAndTheBear"
+          },
+          "owner_name" : {
+            "type" : "string",
+            "description" : "Наименование владельца приложения",
+            "example" : "Маша и медведь"
+          }
+        },
+        "description" : "Информация о приложении и владельце"
+      },
+      "params" : {
+        "type" : "array",
+        "description" : "Доп. параметры заказа",
+        "items" : {
+          "$ref" : "#/components/schemas/param"
+        }
+      },
+      "param" : {
+        "required" : [ "key", "value" ],
+        "type" : "object",
+        "properties" : {
+          "key" : {
+            "type" : "string",
+            "description" : "Название параметра. Если начинается с \"_itemAttributes_\", то при передаче в РБС будет помещен в специальный контейнер itemAttributes",
+            "example" : "packageName"
+          },
+          "value" : {
+            "type" : "string",
+            "description" : "Значение параметра",
+            "example" : "com.MashaAndTheBear.HairSalon"
+          }
+        },
+        "description" : "Доп. параметр"
+      },
+      "bundle_param_refund" : {
+        "allOf" : [ {
+          "required" : [ "item_amount", "item_code", "position_id", "quantity" ],
+          "type" : "object",
+          "properties" : {
+            "position_id" : {
+              "type" : "integer",
+              "description" : "Уникальный идентификатор товарной позиции внутри Корзины Заказа",
+              "example" : 1
+            },
+            "name" : {
+              "type" : "string",
+              "description" : "Наименование или описание товарной позиции в свободной форме",
+              "example" : "Кучка из 100 кристаллов для использования при нырянии"
+            },
+            "quantity" : {
+              "$ref" : "#/components/schemas/quantity"
+            },
+            "item_amount" : {
+              "type" : "integer",
+              "description" : "Сумма стоимости всех товарных позиций одного positionId в деньгах в минимальных единицах валюты (в копейках)",
+              "example" : 11836
+            },
+            "item_code" : {
+              "type" : "string",
+              "description" : "Номер (идентификатор) товарной позиции в системе магазина. Параметр должен быть уникальным в рамках запроса.",
+              "example" : "com.MashaAndTheBear.HairSalon.crystal100"
+            }
+          },
+          "description" : "Элемент корзины"
+        } ]
+      },
+      "bundle_param" : {
+        "allOf" : [ {
+          "required" : [ "name", "position_id" ],
+          "type" : "object",
+          "properties" : {
+            "position_id" : {
+              "type" : "integer",
+              "description" : "Уникальный идентификатор товарной позиции внутри Корзины Заказа",
+              "example" : 1
+            },
+            "name" : {
+              "type" : "string",
+              "description" : "Наименование или описание товарной позиции в свободной форме",
+              "example" : "Кучка из 100 кристаллов для использования при нырянии"
+            },
+            "item_params" : {
+              "$ref" : "#/components/schemas/params"
+            },
+            "quantity" : {
+              "$ref" : "#/components/schemas/quantity"
+            },
+            "item_amount" : {
+              "type" : "integer",
+              "description" : "Сумма стоимости всех товарных позиций одного positionId в деньгах в минимальных единицах валюты (в копейках)",
+              "example" : 11836
+            },
+            "currency" : {
+              "type" : "string",
+              "description" : "Код валюты в [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217).",
+              "example" : "RUB"
+            },
+            "item_code" : {
+              "type" : "string",
+              "description" : "Номер (идентификатор) товарной позиции в системе магазина. Параметр должен быть уникальным в рамках запроса.",
+              "example" : "com.MashaAndTheBear.HairSalon.crystal100"
+            },
+            "item_price" : {
+              "type" : "integer",
+              "description" : "Стоимость одной товарной позиции одного positionId в деньгах в минимальных единицах валюты (в копейках)",
+              "example" : 11836
+            },
+            "discount_type" : {
+              "type" : "string",
+              "description" : "Тип скидки на товарную позицию",
+              "example" : "percent"
+            },
+            "discount_value" : {
+              "type" : "number",
+              "description" : "Значение скидки на товарную позицию",
+              "example" : 5.25
+            },
+            "interest_type" : {
+              "type" : "string",
+              "description" : "Тип агентской комиссии за продажу товара",
+              "example" : "agentPercent"
+            },
+            "interest_value" : {
+              "type" : "number",
+              "description" : "Значение агентской комиссии за продажу товара",
+              "example" : 15.105
+            },
+            "tax_type" : {
+              "type" : "integer",
+              "description" : "Ставка НДС, доступны следующие значения\n0 – без НДС;\n1 – НДС по ставке 0%;\n2 – НДС чека по ставке 10%;\n3 – НДС чека по ставке 18%;\n4 – НДС чека по расчётной ставке 10/110;\n5 – НДС чека по расчётной ставке 18/118;\n6 - НДС чека по ставке 20%;\n7 – НДС чека по расчётной ставке 20/120.';\n",
+              "example" : 6
+            },
+            "tax_sum" : {
+              "type" : "integer",
+              "description" : "Сумма налога, высчитанная продавцом в деньгах в минимальных единицах валюты (в копейках)",
+              "example" : 2367
+            },
+            "item_code_sp" : {
+              "type" : "string",
+              "description" : "Идентификатор товарной позиции в продуктовом каталоге SmartPay. Обязателен, если идет оплата цифрового товара. Параметр должен быть уникальным в рамках запроса.",
+              "example" : "d43f2eb6-f899-439b-8a3b-43b114531f0d"
+            }
+          },
+          "description" : "Элемент корзины"
+        }, {
+          "$ref" : "#/components/schemas/image"
+        } ]
+      },
+      "image" : {
+        "type" : "object",
+        "properties" : {
+          "image" : {
+            "type" : "string",
+            "description" : "Ссылка на картинку.",
+            "format" : "url",
+            "example" : "https://i-love-png.com/images/grim-reaper-icon.png"
+          }
+        },
+        "description" : "Ссылка на картинку."
+      },
+      "quantity" : {
+        "required" : [ "measure", "value" ],
+        "type" : "object",
+        "properties" : {
+          "value" : {
+            "type" : "number",
+            "description" : "Количество товарных позиций данного positionId. Для указания дробных чисел используйте десятичную точку.",
+            "example" : 1.05
+          },
+          "measure" : {
+            "type" : "string",
+            "description" : "Мера измерения количества товарной позиции",
+            "example" : "кг."
+          }
+        },
+        "description" : "Описание общего количества товарных позиций одного positionId и их меру измерения."
+      },
+      "PageDto" : {
+        "title" : "Page«Dto»",
+        "type" : "object",
+        "properties" : {
+          "empty" : {
+            "type" : "boolean"
+          },
+          "first" : {
+            "type" : "boolean"
+          },
+          "last" : {
+            "type" : "boolean"
+          },
+          "number" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "numberOfElements" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "pageable" : {
+            "$ref" : "#/components/schemas/Pageable"
+          },
+          "size" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "sort" : {
+            "$ref" : "#/components/schemas/Sort"
+          },
+          "totalElements" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "totalPages" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }
+      },
+      "Pageable" : {
+        "title" : "Pageable",
+        "type" : "object",
+        "properties" : {
+          "offset" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "pageNumber" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "pageSize" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "paged" : {
+            "type" : "boolean"
+          },
+          "sort" : {
+            "$ref" : "#/components/schemas/Sort"
+          },
+          "unpaged" : {
+            "type" : "boolean"
+          }
+        }
+      },
+      "Sort" : {
+        "title" : "Sort",
+        "type" : "object",
+        "properties" : {
+          "empty" : {
+            "type" : "boolean"
+          },
+          "sorted" : {
+            "type" : "boolean"
+          },
+          "unsorted" : {
+            "type" : "boolean"
+          }
+        }
+      },
+      "inline_response_200" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/base_response"
+        }, {
+          "type" : "object",
+          "properties" : {
+            "invoices" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/components/schemas/invoices_list"
+              }
+            }
+          },
+          "description" : "Счет"
+        }, {
+          "$ref" : "#/components/schemas/PageDto"
+        } ]
+      },
+      "inline_response_400" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/base_response"
+        } ]
+      },
+      "invoices_body" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/user_id"
+        }, {
+          "$ref" : "#/components/schemas/invoice_ptype"
+        }, {
+          "$ref" : "#/components/schemas/invoice"
+        } ]
+      },
+      "inline_response_200_1" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/base_response"
+        } ],
+        "anyOf" : [ {
+          "$ref" : "#/components/schemas/invoice_id"
+        } ]
+      },
+      "user_id_1" : {
+        "type" : "object",
+        "oneOf" : [ {
+          "$ref" : "#/components/schemas/p_partner_client_id"
+        } ]
+      },
+      "inline_response_200_2" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/base_response"
+        }, {
+          "$ref" : "#/components/schemas/invoice_ret"
+        }, {
+          "$ref" : "#/components/schemas/payment_methods"
+        }, {
+          "$ref" : "#/components/schemas/cards"
+        }, {
+          "$ref" : "#/components/schemas/receipts"
+        } ]
+      },
+      "invoices_invoice_id_body" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/user_id"
+        }, {
+          "type" : "object",
+          "properties" : {
+            "code" : {
+              "type" : "string",
+              "description" : "Код инструмента",
+              "example" : "card",
+              "enum" : [ "new", "card", "QR", "app2sbol", "invoice", "applestore" ]
+            },
+            "value" : {
+              "type" : "string",
+              "description" : "Значение параметра, например, id карты",
+              "example" : "ad454ffg-6c54-4b01-90e6-d701748f0851"
+            },
+            "operations" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/components/schemas/operation"
+              }
+            },
+            "device_info" : {
+              "$ref" : "#/components/schemas/device"
+            }
+          },
+          "description" : "ID заказа"
+        }, {
+          "$ref" : "#/components/schemas/return_urls"
+        } ]
+      },
+      "inline_response_200_3" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/base_response"
+        }, {
+          "$ref" : "#/components/schemas/form_url"
+        }, {
+          "type" : "object",
+          "properties" : {
+            "product" : {
+              "$ref" : "#/components/schemas/product_stores"
+            }
+          }
+        } ]
+      },
+      "inline_response_200_4" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/base_response"
+        }, {
+          "$ref" : "#/components/schemas/cards1"
+        } ]
+      },
+      "cards_body" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/user_id"
+        }, {
+          "required" : [ "order_id" ],
+          "type" : "object",
+          "properties" : {
+            "device_info" : {
+              "$ref" : "#/components/schemas/device"
+            },
+            "order_id" : {
+              "$ref" : "#/components/schemas/order_id"
+            },
+            "code" : {
+              "type" : "string",
+              "description" : "Код инструмента",
+              "example" : "app2sbol",
+              "enum" : [ "new", "app2sbol" ]
+            }
+          },
+          "description" : "ID заказа"
+        }, {
+          "$ref" : "#/components/schemas/return_urls"
+        } ]
+      },
+      "inline_response_200_5" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/base_response"
+        }, {
+          "$ref" : "#/components/schemas/form_url"
+        } ]
+      },
+      "inline_response_200_6" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/base_response"
+        }, {
+          "$ref" : "#/components/schemas/card"
+        } ]
+      },
+      "cards_card_id_body" : {
+        "required" : [ "name" ],
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string",
+            "description" : "Алиас карты, указанный клиентом",
+            "example" : "Самая главная"
+          }
+        },
+        "description" : "Данные банковской карты для изменения"
+      },
+      "payment_methods_payment_methods_methods" : {
+        "type" : "object",
+        "properties" : {
+          "method" : {
+            "type" : "string",
+            "description" : "Код",
+            "example" : "QR",
+            "enum" : [ "card", "QR", "new", "applestore" ]
+          },
+          "action" : {
+            "type" : "string",
+            "description" : "Название кнопки оплаты",
+            "example" : "Оплатить по QR-коду"
+          }
+        },
+        "description" : "Варианты оплаты"
+      },
+      "payment_methods_payment_methods" : {
+        "type" : "object",
+        "properties" : {
+          "user_message" : {
+            "type" : "string",
+            "description" : "Сообщение пользователю (необязательное)",
+            "example" : "Для подключения подписки сохраните банковскую карту в мобильном приложении СалютАпп"
+          },
+          "methods" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/payment_methods_payment_methods_methods"
+            }
+          }
+        },
+        "description" : "Платежные инструменты"
+      },
+      "invoice_refund_invoice" : {
+        "required" : [ "order" ],
+        "type" : "object",
+        "properties" : {
+          "order" : {
+            "$ref" : "#/components/schemas/order_refund"
+          }
+        },
+        "description" : "Корзина возврата"
+      },
+      "invoice_invoice" : {
+        "required" : [ "order" ],
+        "type" : "object",
+        "properties" : {
+          "purchaser" : {
+            "description" : "Покупатель",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/client_contact"
+            } ]
+          },
+          "delivery_info" : {
+            "$ref" : "#/components/schemas/delivery_info"
+          },
+          "invoice_params" : {
+            "$ref" : "#/components/schemas/params"
+          },
+          "order" : {
+            "$ref" : "#/components/schemas/order"
+          }
+        },
+        "description" : "Выставленный счет"
+      },
+      "invoice_digital_invoice" : {
+        "type" : "object",
+        "properties" : {
+          "invoice_params" : {
+            "$ref" : "#/components/schemas/params"
+          }
+        },
+        "description" : "Выставленный счет"
+      }
+    },
+    "responses" : {
+      "unauthorized_error" : {
+        "description" : "Access token is missing or invalid"
+      }
+    },
+    "parameters" : {
+      "author" : {
+        "name" : "author",
+        "in" : "header",
+        "description" : "Пользователь, который производит изменения",
+        "required" : false,
+        "style" : "simple",
+        "explode" : false,
+        "schema" : {
+          "type" : "string"
+        }
+      },
+      "invoice_id" : {
+        "name" : "invoice_id",
+        "in" : "path",
+        "description" : "ID счета",
+        "required" : true,
+        "style" : "simple",
+        "explode" : false,
+        "schema" : {
+          "type" : "string",
+          "example" : "d290f1ee-6c54-4b01-90e6-d701748f0851"
+        }
+      },
+      "device_platform_type" : {
+        "name" : "device_platform_type",
+        "in" : "query",
+        "description" : "Наименование операционной системы устройства",
+        "required" : false,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "type" : "string"
+        },
+        "example" : "iOS"
+      },
+      "device_platform_version" : {
+        "name" : "device_platform_version",
+        "in" : "query",
+        "description" : "Версия операционной системы устройства",
+        "required" : false,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "type" : "string"
+        },
+        "example" : "13.6.1"
+      },
+      "device_model" : {
+        "name" : "device_model",
+        "in" : "query",
+        "description" : "Модель устройства",
+        "required" : false,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "type" : "string"
+        },
+        "example" : "iPhone 7"
+      },
+      "device_manufacturer" : {
+        "name" : "device_manufacturer",
+        "in" : "query",
+        "description" : "Производитель устройства",
+        "required" : false,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "type" : "string"
+        },
+        "example" : "Apple"
+      },
+      "device_id" : {
+        "name" : "device_id",
+        "in" : "query",
+        "description" : "Серийный номер устройства",
+        "required" : false,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "type" : "string"
+        },
+        "example" : "83c3f257-46d8-41fe-951b-f79d04e288c2"
+      },
+      "surface" : {
+        "name" : "surface",
+        "in" : "query",
+        "description" : "Поверхность",
+        "required" : false,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "type" : "string"
+        },
+        "example" : "SBOL"
+      },
+      "surface_version" : {
+        "name" : "surface_version",
+        "in" : "query",
+        "description" : "Версия ПО",
+        "required" : false,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "type" : "string"
+        },
+        "example" : "11.5.0"
+      },
+      "user_id_type" : {
+        "name" : "user_id_type",
+        "in" : "query",
+        "description" : "Тип идентификатора клиента",
+        "required" : false,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "type" : "string",
+          "enum" : [ "sub_id", "ucp_id", "user_uid", "encrypted_sub_id", "partner_client_sub_id", "partner_client_id" ]
+        },
+        "example" : "partner_client_id"
+      },
+      "user_id" : {
+        "name" : "user_id",
+        "in" : "query",
+        "description" : "Идентификатор клиента",
+        "required" : false,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "type" : "string"
+        },
+        "example" : "uu-123456"
+      },
+      "user_id_type_r" : {
+        "name" : "user_id_type",
+        "in" : "query",
+        "description" : "Тип идентификатора клиента",
+        "required" : true,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "type" : "string",
+          "enum" : [ "sub_id", "ucp_id", "user_uid", "encrypted_sub_id", "partner_client_sub_id", "partner_client_id" ]
+        },
+        "example" : "partner_client_id"
+      },
+      "user_id_r" : {
+        "name" : "user_id",
+        "in" : "query",
+        "description" : "Идентификатор клиента",
+        "required" : true,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "type" : "string"
+        },
+        "example" : "uu-123456"
+      },
+      "owner_code" : {
+        "name" : "owner_code",
+        "in" : "query",
+        "description" : "Идентификатор владельца",
+        "required" : false,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "type" : "string",
+          "example" : "ru.rustore.MashaAndTheBear"
+        }
+      },
+      "application_code" : {
+        "name" : "application_code",
+        "in" : "query",
+        "description" : "Список идентификаторов приложений",
+        "required" : false,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string",
+            "example" : "ru.rustore.MashaAndTheBear.HairSalon"
+          }
+        }
+      }
+    },
+    "examples" : {
+      "invoice_ok" : {
+        "value" : {
+          "invoice_id" : "d290f1ee-6c54-4b01-90e6-d701748f0851",
+          "error" : {
+            "user_message" : "Счет оплачен",
+            "error_description" : "error_description",
+            "error_code" : 0
+          }
+        }
+      },
+      "invoice_canceled" : {
+        "value" : {
+          "invoice_id" : "d290f1ee-6c54-4b01-90e6-d701748f0851",
+          "error" : {
+            "user_message" : "Счет отменен",
+            "error_description" : "error_description",
+            "error_code" : 6
+          }
+        }
+      },
+      "invoice_need_payment_instrument" : {
+        "value" : {
+          "invoice_id" : "d290f1ee-6c54-4b01-90e6-d701748f0851",
+          "error" : {
+            "user_message" : "Требуется выбор платежного инструмента",
+            "error_description" : "error_description",
+            "error_code" : 2
+          },
+          "cards" : [ {
+            "card_id" : "ad454ffg-6c54-4b01-90e6-d701748f0851",
+            "name" : "Основная",
+            "masked_pan" : "411111**1111",
+            "expiry_date" : "201912",
+            "cardholder" : "Ivan Petrov",
+            "payment_system" : "VISA",
+            "image" : "https://www.sberbank.ru/portalserver/content/atom/adbb65af-4773-43ee-aaa9-8999c8d514e7/content?id=d2515794-e817-4d68-a8f6-7d591e35e70d&_=1543500148511",
+            "paysys" : "Эквайринг Сбербанка",
+            "paysys_image" : "https://www.sberbank.ru/common/img/uploaded/redirected/s_m_business/acquiring/assets/images/intro@2x.png"
+          }, {
+            "card_id" : "67344ffg-6c54-4b01-90e6-d701748fddea",
+            "name" : "Дополнительная",
+            "masked_pan" : "521111**5252",
+            "expiry_date" : "201912",
+            "cardholder" : "Ivan Petrov",
+            "payment_system" : "MasterCard",
+            "image" : "https://www.sberbank.ru/portalserver/content/atom/adbb65af-4773-43ee-aaa9-8999c8d514e7/content?id=566e0013-bbfa-4468-8edc-d71bcdeb0ab5&_=1572507346703",
+            "paysys" : "Эквайринг Сбербанка",
+            "paysys_image" : "https://www.sberbank.ru/common/img/uploaded/redirected/s_m_business/acquiring/assets/images/intro@2x.png"
+          }, {
+            "card_id" : "ffffffff-ffff-ffff-ffff-ffffffffffff",
+            "name" : "Новая",
+            "paysys" : "Эквайринг Сбербанка",
+            "paysys_image" : "https://www.sberbank.ru/common/img/uploaded/redirected/s_m_business/acquiring/assets/images/intro@2x.png"
+          } ]
+        }
+      },
+      "invoice_need_pay" : {
+        "value" : {
+          "invoice_id" : "d290f1ee-6c54-4b01-90e6-d701748f0851",
+          "error" : {
+            "user_message" : "Требуется оплата",
+            "error_description" : "error_description",
+            "error_code" : 1
+          },
+          "form_url" : "https://3dsec.sberbank.ru/payment/merchants/test/payment_ru.html?mdOrder=70906e55-7114-41d6-8332-4609dc6590f4"
+        }
+      },
+      "form_url" : {
+        "value" : {
+          "form_url" : "https://3dsec.sberbank.ru/payment/merchants/test/payment_ru.html?mdOrder=70906e55-7114-41d6-8332-4609dc6590f4"
+        }
+      },
+      "invoice_id" : {
+        "value" : {
+          "invoice_id" : "d290f1ee-6c54-4b01-90e6-d701748f0851"
+        }
+      },
+      "invoice" : {
+        "value" : {
+          "invoice" : {
+            "payer" : {
+              "client_id" : "d290f1ee-6c54-4b01-90e6-d701748f0851",
+              "email" : "qq@dd.eof",
+              "phone" : 9123456789,
+              "contact" : "email"
+            },
+            "invoice_params" : [ {
+              "key" : "packageName",
+              "value" : "com.MashaAndTheBear.HairSalon"
+            } ],
+            "order" : {
+              "order_id" : "d290f1ee-6c54-4b01-90e6-d701748f0851",
+              "order_number" : 145,
+              "order_date" : "2020-04-29T08:15:03+03",
+              "service_id" : "d290f1ee-6c54-4b01-90e6-d701748f0851",
+              "amount" : 11836,
+              "currency" : "RUB",
+              "purpose" : "Покупка внутриигрового контента",
+              "description" : "Покупка внутриигрового контента в игре Маша и Медведь, салон красоты Чародейка.",
+              "language" : "ru-RU",
+              "expiration_date" : "2020-04-29T08:38:03+03",
+              "order_bundle" : [ {
+                "position_id" : 1,
+                "name" : "Кучка из 100 кристаллов для использования при нырянии",
+                "item_params" : [ {
+                  "key" : "packageName",
+                  "value" : "com.MashaAndTheBear.HairSalon"
+                } ],
+                "quantity" : {
+                  "value" : 1,
+                  "measure" : "шт."
+                },
+                "item_amount" : 11836,
+                "currency" : "RUB",
+                "item_code" : "com.MashaAndTheBear.HairSalon.crystal100"
+              } ]
+            }
+          }
+        }
+      },
+      "error_example" : {
+        "value" : {
+          "success" : true,
+          "errors" : {
+            "error" : {
+              "user_message" : "Требуется выбор платежного инструмента клиентом",
+              "error_description" : "error_description",
+              "error_code" : 2
+            }
+          }
+        }
+      },
+      "payment_instruments" : {
+        "value" : {
+          "cards" : [ {
+            "card_id" : "ad454ffg-6c54-4b01-90e6-d701748f0851",
+            "name" : "Основная",
+            "masked_pan" : "411111**1111",
+            "expiry_date" : "201912",
+            "cardholder" : "Ivan Petrov",
+            "payment_system" : "VISA",
+            "image" : "https://www.sberbank.ru/portalserver/content/atom/adbb65af-4773-43ee-aaa9-8999c8d514e7/content?id=d2515794-e817-4d68-a8f6-7d591e35e70d&_=1543500148511",
+            "paysys" : "Эквайринг Сбербанка",
+            "paysys_image" : "https://www.sberbank.ru/common/img/uploaded/redirected/s_m_business/acquiring/assets/images/intro@2x.png"
+          }, {
+            "card_id" : "67344ffg-6c54-4b01-90e6-d701748fddea",
+            "name" : "Дополнительная",
+            "masked_pan" : "521111**5252",
+            "expiry_date" : "201912",
+            "cardholder" : "Ivan Petrov",
+            "payment_system" : "MasterCard",
+            "image" : "https://www.sberbank.ru/portalserver/content/atom/adbb65af-4773-43ee-aaa9-8999c8d514e7/content?id=566e0013-bbfa-4468-8edc-d71bcdeb0ab5&_=1572507346703",
+            "paysys" : "Эквайринг Сбербанка",
+            "paysys_image" : "https://www.sberbank.ru/common/img/uploaded/redirected/s_m_business/acquiring/assets/images/intro@2x.png"
+          }, {
+            "card_id" : "ffffffff-ffff-ffff-ffff-ffffffffffff",
+            "name" : "Новая",
+            "paysys" : "Эквайринг Сбербанка",
+            "paysys_image" : "https://www.sberbank.ru/common/img/uploaded/redirected/s_m_business/acquiring/assets/images/intro@2x.png"
+          } ]
+        }
+      }
+    },
+    "securitySchemes" : {
+      "bearerAuth" : {
+        "type" : "http",
+        "scheme" : "bearer",
+        "bearerFormat" : "JWT"
+      }
+    }
+  }
+}
